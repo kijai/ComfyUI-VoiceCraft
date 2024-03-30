@@ -5,14 +5,14 @@ import numpy as np
 import torch
 import torchaudio
 
-from data.tokenizer import (
+from .data.tokenizer import (
     AudioTokenizer,
     TextTokenizer,
     tokenize_audio,
     tokenize_text
 )
 
-from models import voicecraft
+from .models import voicecraft
 import argparse, time, tqdm
 
 

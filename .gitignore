@@ -24,6 +24,6 @@ thumbs.db
 *a40*
 
 src/audiocraft
-
+tempt/*
 !/demo/
 !/demo/*

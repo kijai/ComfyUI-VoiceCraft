@@ -28,11 +28,14 @@ from phonemizer.backend.espeak.words_mismatch import WordMismatch
 from phonemizer.punctuation import Punctuation
 from phonemizer.separator import Separator
 
-
+from audiocraft.models import builders as builders
+from audiocraft.utils import checkpoint
 
 class TextTokenizer:
     """Phonemize Text."""
-
+    @classmethod
+    def set_library(cls, library):
+        EspeakBackend.set_library(library)
     def __init__(
         self,
         language="en-us",
@@ -104,10 +107,17 @@ class AudioTokenizer:
     def __init__(
         self,
         device: Any = None,
-        signature = None
+        signature = None,
     ) -> None:
-        from audiocraft.solvers import CompressionSolver
-        model = CompressionSolver.model_from_checkpoint(signature)
+        
+        state = checkpoint.load_checkpoint(signature)
+        cfg = state['xp.cfg']
+        cfg.device = device
+        compression_model = builders.get_compression_model(cfg).to(device)
+        compression_model.load_state_dict(state['best_state']['model'])
+        compression_model.eval()
+        print("Compression model loaded!")
+        model = compression_model
         self.sample_rate = model.sample_rate
         self.channels = model.channels
         
