@@ -45,11 +45,14 @@ class voicecraft_model_loader:
                 print("espeak_library_path not set, using default")
                 espeak_library_path_windows = os.path.join(script_directory, 'espeak-ng', 'libespeak-ng.dll') #TODO linux?
                 espeak_library_path = espeak_library_path_windows
+                print("Setting espeak_library_path: ", espeak_library_path_windows)
                 TextTokenizer.set_library(espeak_library_path)
 
             model_path = os.path.join(folder_paths.models_dir,'voicecraft')
-
-            text_tokenizer = TextTokenizer(backend="espeak")
+            try:
+                text_tokenizer = TextTokenizer(backend="espeak")
+            except:
+                print("Failed to initialize TextTokenizer")
            
             voicecraft_name="giga830M.pth"
             
@@ -80,6 +83,67 @@ class voicecraft_model_loader:
 
         return (voicecraft_model,)
 
+class audiocraft_model_loader:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "audiocraft_model": (
+            [   
+                'musicgen-small',
+                'musicgen-medium',
+                'musicgen-large',
+                'musicgen-melody',
+                'musicgen-melody-large',
+                'musicgen-small-stereo',
+                'musicgen-medium-stereo',
+                'musicgen-large-stereo',
+                'musicgen-melody-stereo',
+                'musicgen-melody-large-stereo',
+                'magnet-small-10secs',
+                'magnet-small-30secs',
+                'magnet-medium-10secs',
+                'magnet-medium-30secs',
+                'magnet-medium-10secs',
+                'audio-magnet-small',
+                'audio-magnet-medium'
+
+            ],
+            {
+            "default": 'musicgen-melody'
+             }),
+            },
+        }
+
+    RETURN_TYPES = ("ACMODEL",)
+    RETURN_NAMES = ("audiocraft_model",)
+    FUNCTION = "loadmodel"
+    CATEGORY = "VoiceCraft"
+    DESCRIPTION = "Loads (and downloads) Facebook's audiocraft model from Hugginface to ComfyUI/models/audiocraft"
+
+    def loadmodel(self, audiocraft_model):
+        mm.soft_empty_cache()
+        device = mm.get_torch_device()
+        
+        if not hasattr(self, 'model') or self.model == None or audiocraft_model != audiocraft_model["model_name"]:
+            model_path = os.path.join(folder_paths.models_dir,'audiocraft',audiocraft_model)
+            
+            if not os.path.exists(model_path):
+                from huggingface_hub import snapshot_download
+                snapshot_download(repo_id=f"facebook/{audiocraft_model}", ignore_patterns=["*.safetensors"], 
+                                    local_dir=model_path, local_dir_use_symlinks=False)
+            if "magnet" in audiocraft_model:
+                from audiocraft.models import MAGNeT
+                self.model = MAGNeT.get_pretrained(model_path)
+            if "musicgen" in audiocraft_model:
+                from audiocraft.models import MusicGen
+                self.model = MusicGen.get_pretrained(model_path)
+            audiocraft_model = {
+                "model": self.model,
+                "model_name": audiocraft_model
+            }
+
+        return (audiocraft_model,)
+    
 class voicecraft_process:
     @classmethod
     def INPUT_TYPES(s):
@@ -102,7 +166,7 @@ class voicecraft_process:
         }
 
     RETURN_TYPES = ("VHS_AUDIO", "INT", "STRING", "VCAUDIOTENSOR",)
-    RETURN_NAMES = ("vhs_audio", "audio_dur", "gen_audio_path", "vc_audio_tensor",)
+    RETURN_NAMES = ("vhs_audio", "audio_dur", "gen_audio_path", "audio_tensor",)
     FUNCTION = "process"
     CATEGORY = "VoiceCraft"
 
@@ -237,7 +301,7 @@ class audio_tensor_to_vhs_audio:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {
-            "vc_audio_tensor": ("VCAUDIOTENSOR",),
+            "audio_tensor": ("VCAUDIOTENSOR",),
              },
     
         }
@@ -247,11 +311,11 @@ class audio_tensor_to_vhs_audio:
     FUNCTION = "process"
     CATEGORY = "VoiceCraft"
 
-    def process(self, vc_audio_tensor):
+    def process(self, audio_tensor):
 
         # Save generated audio to a WAV file
         audio_path = os.path.join(script_directory, "temp", "gen_audio.wav")
-        torchaudio.save(audio_path, vc_audio_tensor, 16000)
+        torchaudio.save(audio_path, audio_tensor, 16000)
         audio_info = torchaudio.info(audio_path)
         audio_dur = audio_info.num_frames / audio_info.sample_rate
  
@@ -319,7 +383,7 @@ class audio_tensor_concat:
         }
 
     RETURN_TYPES = ("VCAUDIOTENSOR", "INT",)
-    RETURN_NAMES = ("vc_audio_tensor", "audio_dur",)
+    RETURN_NAMES = ("audio_tensor", "audio_dur",)
     FUNCTION = "process"
     CATEGORY = "VoiceCraft"
 
@@ -333,17 +397,58 @@ class audio_tensor_concat:
 
         return (concatenated_audio, audio_dur,)
 
+class musicgen:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+                "audiocraft_model": ("ACMODEL",),
+                "sample_rate": ("INT", {"default": 16000, "min": 0, "max": 160000}),
+                "duration": ("FLOAT", {"default": 8, "min": 0, "max": 4096, "step": 0.01}),
+                "description": ("STRING", {"default": "happy rock", "multiline":True}),
+             },
+             "optional": {
+                "melody": ("VCAUDIOTENSOR",),
+             }
+    
+        }
+
+    RETURN_TYPES = ("VCAUDIOTENSOR", "INT",)
+    RETURN_NAMES = ("audio_tensor", "audio_dur",)
+    FUNCTION = "process"
+    CATEGORY = "VoiceCraft"
+
+    def process(self, audiocraft_model, sample_rate, duration, description, melody=None):
+        model = audiocraft_model['model']
+        if "musicgen" in audiocraft_model['model_name']:
+            model.set_generation_params(duration=duration) 
+        if melody != None and description != "":
+            audio_tensor = model.generate_with_chroma([description], melody, sample_rate)
+        elif description == "" and melody is None:
+            audio_tensor = model.generate_unconditional(1)
+        elif melody != None and description == "":
+            audio_tensor = model.generate(melody)
+        else:
+            audio_tensor = model.generate(description) 
+        
+        print(audio_tensor.shape)        
+        audio_dur = audio_tensor.shape[2] / sample_rate
+        return (audio_tensor[0].cpu(), audio_dur,)
+
 NODE_CLASS_MAPPINGS = {
     "voicecraft_model_loader": voicecraft_model_loader,
     "voicecraft_process": voicecraft_process,
     "audio_tensor_concat": audio_tensor_concat,
     "audio_tensor_to_vhs_audio": audio_tensor_to_vhs_audio,
-    "vhs_audio_to_audio_tensor": vhs_audio_to_audio_tensor
+    "vhs_audio_to_audio_tensor": vhs_audio_to_audio_tensor,
+    "musicgen": musicgen,
+    "audiocraft_model_loader": audiocraft_model_loader
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     "voicecraft_model_loader": "VoiceCraft Model Loader",
     "voicecraft_process": "VoiceCraft Process",
     "audio_tensor_concat": "Audio Tensor Concat",
     "audio_tensor_to_vhs_audio": "Audio Tensor To VHS Audio",
-    "vhs_audio_to_audio_tensor": "VHS Audio To Audio Tensor"
+    "vhs_audio_to_audio_tensor": "VHS Audio To Audio Tensor",
+    "musicgen": "MusicGen",
+    "audiocraft_model_loader": "AudioCraft Model Loader"
 }
