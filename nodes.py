@@ -12,7 +12,6 @@ import model_management as mm
 import comfy.utils
 import folder_paths
 script_directory = os.path.dirname(os.path.abspath(__file__))
-espeak_lib_path = os.path.join(script_directory, 'espeak-ng', 'libespeak-ng.dll')
 
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   
 os.environ["CUDA_VISIBLE_DEVICES"]="0"  
@@ -21,9 +20,11 @@ class voicecraft_model_loader:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {
-            "espeak_library_path": ("STRING", {"default": espeak_lib_path, "multiline":True}),
-            },
             
+            },
+            "optional": {
+                "espeak_library_path": ("STRING", {"default": "", "forceInput":True}),
+            }
         }
 
     RETURN_TYPES = ("VCMODEL",)
@@ -31,15 +32,16 @@ class voicecraft_model_loader:
     FUNCTION = "loadmodel"
     CATEGORY = "VoiceCraft"
 
-    def loadmodel(self, espeak_library_path):
+    def loadmodel(self, espeak_library_path=""):
         mm.soft_empty_cache()
         device = mm.get_torch_device()
   
-
         if not hasattr(self, 'model') or self.model == None:
-           
-            if espeak_library_path != "":
-                TextTokenizer.set_library(espeak_library_path)
+            if espeak_library_path == "":
+                print("espeak_library_path not set, using default")
+                espeak_library_path_windows = os.path.join(script_directory, 'espeak-ng', 'libespeak-ng.dll') #TODO linux?
+                espeak_library_path = espeak_library_path_windows
+            TextTokenizer.set_library(espeak_library_path)
 
             model_path = os.path.join(folder_paths.models_dir,'voicecraft')
 

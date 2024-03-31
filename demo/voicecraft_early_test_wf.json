@@ -1,6 +1,6 @@
 {
-  "last_node_id": 18,
-  "last_link_id": 20,
+  "last_node_id": 20,
+  "last_link_id": 22,
   "nodes": [
     {
       "id": 16,
@@ -120,38 +120,6 @@
       },
       "widgets_values": [
         "a*b"
-      ]
-    },
-    {
-      "id": 18,
-      "type": "voicecraft_model_loader",
-      "pos": [
-        282,
-        299
-      ],
-      "size": {
-        "0": 400,
-        "1": 200
-      },
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "voicecraft_model",
-          "type": "VCMODEL",
-          "links": [
-            20
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "voicecraft_model_loader"
-      },
-      "widgets_values": [
-        "N:\\AI\\ComfyUI\\custom_nodes\\ComfyUI-VoiceCraft\\espeak-ng\\libespeak-ng.dll"
       ]
     },
     {
@@ -307,7 +275,7 @@
         "1": 200
       },
       "flags": {},
-      "order": 2,
+      "order": 1,
       "mode": 0,
       "outputs": [
         {
@@ -379,7 +347,8 @@
         {
           "name": "voicecraft_model",
           "type": "VCMODEL",
-          "link": 20
+          "link": 22,
+          "slot_index": 0
         },
         {
           "name": "target_transcript",
@@ -431,6 +400,48 @@
         3,
         4,
         "But when I had approached so near to them The common object, which the sense deceives, Lost not by distance any of its marks,"
+      ]
+    },
+    {
+      "id": 20,
+      "type": "voicecraft_model_loader",
+      "pos": [
+        352,
+        317
+      ],
+      "size": {
+        "0": 372.70001220703125,
+        "1": 35.0999870300293
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "espeak_library_path",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "espeak_library_path"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "voicecraft_model",
+          "type": "VCMODEL",
+          "links": [
+            22
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "voicecraft_model_loader"
+      },
+      "widgets_values": [
+        ""
       ]
     }
   ],
@@ -516,8 +527,8 @@
       "INT"
     ],
     [
+      22,
       20,
-      18,
       0,
       14,
       0,
