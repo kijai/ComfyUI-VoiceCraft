@@ -13,7 +13,7 @@ import comfy.utils
 import folder_paths
 import platform
 script_directory = os.path.dirname(os.path.abspath(__file__))
-
+folder_paths.add_model_folder_path("voicecraft_samples", os.path.join(script_directory, "demo"))
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   
 os.environ["CUDA_VISIBLE_DEVICES"]="0"  
     
@@ -76,13 +76,13 @@ class voicecraft_model_loader:
             }
 
         return (voicecraft_model,)
-    
+
 class voicecraft_process:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {
             "voicecraft_model": ("VCMODEL",),
-            "original_audio_path": ("STRING", {"default": os.path.join(script_directory, 'demo', '84_121550_000074_000000.wav'), "multiline":True}),
+            "original_sample": (folder_paths.get_filename_list("voicecraft_samples"), ),
             "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
             "cut_off_sec": ("FLOAT", {"default": 3.01, "min": 0, "max": 4096, "step": 0.01}),
             "top_k": ("FLOAT", {"default": 0, "min": 0, "max": 1024, "step": 0.01}),
@@ -96,12 +96,12 @@ class voicecraft_process:
     
         }
 
-    RETURN_TYPES = ("VHS_AUDIO", "INT", "STRING", )
-    RETURN_NAMES = ("vhs_audio", "audio_dur", "gen_audio_path", )
+    RETURN_TYPES = ("VHS_AUDIO", "INT", "STRING", "VCAUDIOTENSOR",)
+    RETURN_NAMES = ("vhs_audio", "audio_dur", "gen_audio_path", "vc_audio_tensor",)
     FUNCTION = "process"
     CATEGORY = "VoiceCraft"
 
-    def process(self, voicecraft_model,cut_off_sec, original_audio_path, seed, target_transcript, top_k, top_p, temperature, stop_repetition, sample_batch_size):
+    def process(self, voicecraft_model,cut_off_sec, original_sample, seed, target_transcript, top_k, top_p, temperature, stop_repetition, sample_batch_size):
         device = mm.get_torch_device()
         mm.soft_empty_cache()
         # hyperparameters for inference
@@ -142,7 +142,7 @@ class voicecraft_process:
         #os.makedirs(align_temp, exist_ok=True)
         #os.system(f"mfa align -j 1 --output_format csv {temp_folder} english_us_arpa english_us_arpa {align_temp}")
         #audio_fn = os.path.join(temp_folder,f"{filename}.wav")
-        audio_fn = original_audio_path
+        audio_fn = folder_paths.get_full_path("voicecraft_samples", original_sample)
         #transcript_fn = f"{temp_folder}/{filename}.txt"
         #align_fn = f"{align_temp}/{filename}.csv"
         #cut_off_sec = 3.01 # NOTE: according to forced-alignment file, the word "common" stop as 3.01 sec, this should be different for different audio
@@ -169,15 +169,14 @@ class voicecraft_process:
             )
         
         # save segments for comparison
-        concated_audio, gen_audio = concated_audio[0].cpu(), gen_audio[0].cpu()
-        print(type(concated_audio), type(gen_audio))   
+        concated_audio, gen_audio_tensor = concated_audio[0].cpu(), gen_audio[0].cpu()
 
         # Define the sample rate
         sample_rate = codec_audio_sr
 
         # Save generated audio to a WAV file
         gen_audio_path = os.path.join(script_directory, "temp", "gen_audio.wav")
-        torchaudio.save(gen_audio_path, gen_audio, sample_rate)
+        torchaudio.save(gen_audio_path, gen_audio_tensor, sample_rate)
         gen_audio_info = torchaudio.info(gen_audio_path)
         gen_audio_dur = gen_audio_info.num_frames / gen_audio_info.sample_rate
         #print(f"Generated audio saved to {gen_audio_path}")
@@ -195,13 +194,84 @@ class voicecraft_process:
             print("Failed to run ffmpeg")
   
         audio_lambda = lambda: res
-        return (audio_lambda, gen_audio_dur, gen_audio_path)
+
+        return (audio_lambda, gen_audio_dur, gen_audio_path, gen_audio_tensor,)
+class vc_to_vhs_audio:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "vc_audio_tensor": ("VCAUDIOTENSOR",),
+             },
+    
+        }
+
+    RETURN_TYPES = ("VHS_AUDIO", "INT",)
+    RETURN_NAMES = ("vhs_audio", "audio_dur",)
+    FUNCTION = "process"
+    CATEGORY = "VoiceCraft"
+
+    def process(self, vc_audio_tensor):
+
+        # Save generated audio to a WAV file
+        audio_path = os.path.join(script_directory, "temp", "gen_audio.wav")
+        torchaudio.save(audio_path, vc_audio_tensor, 16000)
+        audio_info = torchaudio.info(audio_path)
+        audio_dur = audio_info.num_frames / audio_info.sample_rate
+ 
+        try:
+            from imageio_ffmpeg import get_ffmpeg_exe
+            imageio_ffmpeg_path = get_ffmpeg_exe()
+        except:
+            print("Failed to import imageio_ffmpeg")
+        args = [imageio_ffmpeg_path, "-v", "error", "-i", audio_path]
+        try:
+            import subprocess
+            res =  subprocess.run(args + ["-f", "wav", "-"],
+                                stdout=subprocess.PIPE, check=True).stdout
+        except:
+            print("Failed to run ffmpeg")
+  
+        audio_lambda = lambda: res
+
+        # Return the new audio_lambda
+        return (audio_lambda, audio_dur,)
+
+class vc_audio_concat:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "vc_audio_tensor1": ("VCAUDIOTENSOR",),
+            "vc_audio_tensor2": ("VCAUDIOTENSOR",),
+             },
+    
+        }
+
+    RETURN_TYPES = ("VCAUDIOTENSOR", "INT",)
+    RETURN_NAMES = ("vc_audio_tensor", "audio_dur",)
+    FUNCTION = "process"
+    CATEGORY = "VoiceCraft"
+
+    def process(self, vc_audio_tensor1, vc_audio_tensor2):
+        print(vc_audio_tensor1.shape, vc_audio_tensor2.shape)
+        assert vc_audio_tensor1.size(0) == vc_audio_tensor2.size(0), "Tensors must have the same number of channels"
+
+        print(vc_audio_tensor1.shape, vc_audio_tensor2.shape)
+        concatenated_audio = torch.cat((vc_audio_tensor1, vc_audio_tensor2), dim=1)
+
+        sample_rate = 16000
+        audio_dur = concatenated_audio.shape[0] / sample_rate
+
+        return (concatenated_audio, audio_dur,)
 
 NODE_CLASS_MAPPINGS = {
     "voicecraft_model_loader": voicecraft_model_loader,
     "voicecraft_process": voicecraft_process,
+    "vc_audio_concat": vc_audio_concat,
+    "vc_to_vhs_audio": vc_to_vhs_audio
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     "voicecraft_model_loader": "VoiceCraft Model Loader",
     "voicecraft_process": "VoiceCraft Process",
+    "vc_audio_concat": "VoiceCraft Audio Concat",
+    "vc_to_vhs_audio": "VoiceCraft To VHS Audio"
 }
