@@ -11,6 +11,7 @@ from .models import voicecraft
 import model_management as mm
 import comfy.utils
 import folder_paths
+import platform
 script_directory = os.path.dirname(os.path.abspath(__file__))
 
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   
@@ -37,11 +38,11 @@ class voicecraft_model_loader:
         device = mm.get_torch_device()
   
         if not hasattr(self, 'model') or self.model == None:
-            if espeak_library_path == "":
+            if espeak_library_path == "" and platform.system() == "Windows":
                 print("espeak_library_path not set, using default")
                 espeak_library_path_windows = os.path.join(script_directory, 'espeak-ng', 'libespeak-ng.dll') #TODO linux?
                 espeak_library_path = espeak_library_path_windows
-            TextTokenizer.set_library(espeak_library_path)
+                TextTokenizer.set_library(espeak_library_path)
 
             model_path = os.path.join(folder_paths.models_dir,'voicecraft')
 
@@ -81,7 +82,7 @@ class voicecraft_process:
     def INPUT_TYPES(s):
         return {"required": {
             "voicecraft_model": ("VCMODEL",),
-            "original_audio_path": ("STRING", {"default": os.path.join(script_directory, 'demo', 'YOU1000000023_S0000047.wav'), "multiline":True}),
+            "original_audio_path": ("STRING", {"default": os.path.join(script_directory, 'demo', '84_121550_000074_000000.wav'), "multiline":True}),
             "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
             "cut_off_sec": ("FLOAT", {"default": 3.01, "min": 0, "max": 4096, "step": 0.01}),
             "top_k": ("INT", {"default": 0, "min": 0, "max": 1024}),
@@ -90,7 +91,7 @@ class voicecraft_process:
             "stop_repetition": ("INT", {"default": 3, "min": 0, "max": 1024}),
             "sample_batch_size": ("INT", {"default": 4, "min": 1, "max": 1024}),
             #"orig_transcript": ("STRING", {"default": "Hello world!", "multiline":True}),
-            "target_transcript": ("STRING", {"default": "To unlock the multitude of control types and artistic flows possible with AI, we want to build tooling and infrastructure to empower a community of tool-builders, who in-turn empower a world of budding artists.", "multiline":True}),
+            "target_transcript": ("STRING", {"default": "But when I had approached so near to them The common To unlock the multitude of control types and artistic flows possible with AI, we want to build tooling and infrastructure to empower a community of tool-builders, who in-turn empower a world of budding artists.", "multiline":True}),
             },
     
         }
