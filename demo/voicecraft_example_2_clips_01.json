@@ -1,0 +1,1530 @@
+{
+  "last_node_id": 54,
+  "last_link_id": 107,
+  "nodes": [
+    {
+      "id": 33,
+      "type": "CreateTextMask",
+      "pos": [
+        1343,
+        455
+      ],
+      "size": {
+        "0": 400,
+        "1": 360
+      },
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 62,
+          "widget": {
+            "name": "text"
+          },
+          "slot_index": 0
+        },
+        {
+          "name": "frames",
+          "type": "INT",
+          "link": 61,
+          "widget": {
+            "name": "frames"
+          },
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            64
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateTextMask"
+      },
+      "widgets_values": [
+        false,
+        1,
+        0,
+        0,
+        32,
+        "white",
+        "HELLO!",
+        "TTNorms-Black.otf",
+        512,
+        512,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 14,
+      "type": "audio_tensor_to_vhs_audio",
+      "pos": [
+        1829,
+        149
+      ],
+      "size": {
+        "0": 279.5999755859375,
+        "1": 78
+      },
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "vhs_audio",
+          "type": "VHS_AUDIO",
+          "links": [
+            40
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "audio_tensor_to_vhs_audio"
+      },
+      "widgets_values": [
+        48000
+      ]
+    },
+    {
+      "id": 13,
+      "type": "audio_tensor_enhance",
+      "pos": [
+        1430,
+        157
+      ],
+      "size": {
+        "0": 317.4000244140625,
+        "1": 78
+      },
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "link": 70
+        },
+        {
+          "name": "original_sample_rate",
+          "type": "INT",
+          "link": 22,
+          "widget": {
+            "name": "original_sample_rate"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "links": [
+            19
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "audio_tensor_enhance"
+      },
+      "widgets_values": [
+        16000
+      ]
+    },
+    {
+      "id": 12,
+      "type": "voicecraft_model_loader",
+      "pos": [
+        -16,
+        49
+      ],
+      "size": {
+        "0": 216.59999084472656,
+        "1": 26
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "voicecraft_model",
+          "type": "VCMODEL",
+          "links": [
+            73,
+            79
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "voicecraft_model_loader"
+      }
+    },
+    {
+      "id": 26,
+      "type": "Text Concatenate",
+      "pos": [
+        -194,
+        618
+      ],
+      "size": {
+        "0": 315,
+        "1": 178
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_a",
+          "type": "STRING",
+          "link": 96,
+          "widget": {
+            "name": "text_a"
+          },
+          "slot_index": 0
+        },
+        {
+          "name": "text_b",
+          "type": "STRING",
+          "link": 45,
+          "widget": {
+            "name": "text_b"
+          }
+        },
+        {
+          "name": "text_c",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text_c"
+          }
+        },
+        {
+          "name": "text_d",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text_d"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            80
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Concatenate"
+      },
+      "widgets_values": [
+        "",
+        "true",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 10,
+      "type": "INTConstant",
+      "pos": [
+        500,
+        -290
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "value",
+          "type": "INT",
+          "links": [
+            13,
+            58,
+            59
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Framerate",
+      "properties": {
+        "Node name for S&R": "INTConstant"
+      },
+      "widgets_values": [
+        24
+      ],
+      "color": "#1b4669",
+      "bgcolor": "#29699c"
+    },
+    {
+      "id": 20,
+      "type": "CreateTextMask",
+      "pos": [
+        1322,
+        -393
+      ],
+      "size": {
+        "0": 400,
+        "1": 360
+      },
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 27,
+          "widget": {
+            "name": "text"
+          },
+          "slot_index": 0
+        },
+        {
+          "name": "frames",
+          "type": "INT",
+          "link": 28,
+          "widget": {
+            "name": "frames"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            63
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateTextMask"
+      },
+      "widgets_values": [
+        false,
+        1,
+        0,
+        0,
+        32,
+        "white",
+        "HELLO!",
+        "TTNorms-Black.otf",
+        512,
+        512,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 34,
+      "type": "ImageBatch",
+      "pos": [
+        1925,
+        19
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image1",
+          "type": "IMAGE",
+          "link": 63
+        },
+        {
+          "name": "image2",
+          "type": "IMAGE",
+          "link": 64
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            65
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageBatch"
+      }
+    },
+    {
+      "id": 4,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        2236,
+        73
+      ],
+      "size": [
+        315,
+        595
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 65,
+          "slot_index": 0
+        },
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "link": 40
+        },
+        {
+          "name": "batch_manager",
+          "type": "VHS_BatchManager",
+          "link": null
+        },
+        {
+          "name": "frame_rate",
+          "type": "INT",
+          "link": 13,
+          "widget": {
+            "name": "frame_rate"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 8,
+        "loop_count": 0,
+        "filename_prefix": "AnimateDiff",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 19,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": false,
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "filename": "AnimateDiff_00011-audio.mp4",
+            "subfolder": "",
+            "type": "temp",
+            "format": "video/h264-mp4"
+          }
+        }
+      }
+    },
+    {
+      "id": 36,
+      "type": "voicecraft_process",
+      "pos": [
+        335,
+        -149
+      ],
+      "size": [
+        399.6637862792966,
+        262
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "voicecraft_model",
+          "type": "VCMODEL",
+          "link": 73
+        },
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "link": 106
+        },
+        {
+          "name": "target_transcript",
+          "type": "STRING",
+          "link": 77,
+          "widget": {
+            "name": "target_transcript"
+          },
+          "slot_index": 2
+        },
+        {
+          "name": "sample_rate",
+          "type": "INT",
+          "link": 76,
+          "widget": {
+            "name": "sample_rate"
+          },
+          "slot_index": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "vhs_audio",
+          "type": "VHS_AUDIO",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": [
+            74
+          ],
+          "shape": 3
+        },
+        {
+          "name": "gen_audio_path",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "links": [
+            75
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "voicecraft_process"
+      },
+      "widgets_values": [
+        16000,
+        125,
+        "fixed",
+        0,
+        0.8,
+        1,
+        3,
+        4,
+        "But when I had approached so near to them The common To unlock the multitude of control types and artistic flows possible with AI, we want to build tooling and infrastructure to empower a community of tool-builders, who in-turn empower a world of budding artists."
+      ]
+    },
+    {
+      "id": 30,
+      "type": "SimpleMath+",
+      "pos": [
+        960,
+        581
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "INT,FLOAT",
+          "link": 59,
+          "slot_index": 0
+        },
+        {
+          "name": "b",
+          "type": "INT,FLOAT",
+          "link": 82,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            61
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SimpleMath+"
+      },
+      "widgets_values": [
+        "a*b"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "vhs_audio_to_audio_tensor",
+      "pos": [
+        116,
+        349
+      ],
+      "size": {
+        "0": 315,
+        "1": 102
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "vhs_audio",
+          "type": "VHS_AUDIO",
+          "link": 1
+        },
+        {
+          "name": "target_sample_rate",
+          "type": "INT",
+          "link": 23,
+          "widget": {
+            "name": "target_sample_rate"
+          },
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "links": [
+            106,
+            107
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": [
+            7
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "vhs_audio_to_audio_tensor"
+      },
+      "widgets_values": [
+        16000,
+        1
+      ]
+    },
+    {
+      "id": 7,
+      "type": "Display Int (rgthree)",
+      "pos": [
+        488,
+        363
+      ],
+      "size": {
+        "0": 324,
+        "1": 94
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input",
+          "type": "INT",
+          "link": 7,
+          "widget": {
+            "name": "input"
+          },
+          "dir": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Display Int (rgthree)"
+      },
+      "widgets_values": [
+        0,
+        ""
+      ]
+    },
+    {
+      "id": 1,
+      "type": "VHS_LoadAudio",
+      "pos": [
+        -231,
+        347
+      ],
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "links": [
+            1
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_LoadAudio"
+      },
+      "widgets_values": {
+        "audio_file": "input/but_the renaissance_broke_their_monopoly_on_knowledge.wav",
+        "seek_seconds": 0
+      }
+    },
+    {
+      "id": 23,
+      "type": "Text Multiline",
+      "pos": [
+        -666,
+        533
+      ],
+      "size": {
+        "0": 373.0280456542969,
+        "1": 135.55711364746094
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            45,
+            62
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "The results vary greatly between seeds. 3 seconds is the minimum recommended length of the input, and the transcript of said input needs to be inputted above."
+      ]
+    },
+    {
+      "id": 37,
+      "type": "voicecraft_process",
+      "pos": [
+        331,
+        542
+      ],
+      "size": [
+        400.7355862792965,
+        262
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "voicecraft_model",
+          "type": "VCMODEL",
+          "link": 79
+        },
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "link": 107,
+          "slot_index": 1
+        },
+        {
+          "name": "target_transcript",
+          "type": "STRING",
+          "link": 80,
+          "widget": {
+            "name": "target_transcript"
+          },
+          "slot_index": 2
+        },
+        {
+          "name": "sample_rate",
+          "type": "INT",
+          "link": 81,
+          "widget": {
+            "name": "sample_rate"
+          },
+          "slot_index": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "vhs_audio",
+          "type": "VHS_AUDIO",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": [
+            82
+          ],
+          "shape": 3
+        },
+        {
+          "name": "gen_audio_path",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "links": [
+            83
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "voicecraft_process"
+      },
+      "widgets_values": [
+        16000,
+        125,
+        "fixed",
+        0,
+        0.8,
+        1,
+        3,
+        4,
+        "But when I had approached so near to them The common To unlock the multitude of control types and artistic flows possible with AI, we want to build tooling and infrastructure to empower a community of tool-builders, who in-turn empower a world of budding artists."
+      ]
+    },
+    {
+      "id": 19,
+      "type": "Text Multiline",
+      "pos": [
+        -662,
+        -393
+      ],
+      "size": [
+        394.58241410688913,
+        153.08928888494313
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            26,
+            27
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "This is an example workflow that generates two clips from a single input clip. This input clip originates from the VoiceCraft demo page."
+      ]
+    },
+    {
+      "id": 16,
+      "type": "Text Multiline",
+      "pos": [
+        -773,
+        182
+      ],
+      "size": {
+        "0": 373.0280456542969,
+        "1": 135.55711364746094
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            95,
+            96
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Text Multiline: Original transcript",
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "but the renaissance broke their monopoly on knowledge, one of the most important bastions of the church."
+      ]
+    },
+    {
+      "id": 15,
+      "type": "INTConstant",
+      "pos": [
+        12,
+        179
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "value",
+          "type": "INT",
+          "links": [
+            22,
+            23,
+            76,
+            81
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Samplerate",
+      "properties": {
+        "Node name for S&R": "INTConstant"
+      },
+      "widgets_values": [
+        16000
+      ],
+      "color": "#1b4669",
+      "bgcolor": "#29699c"
+    },
+    {
+      "id": 35,
+      "type": "audio_tensor_concat",
+      "pos": [
+        1040,
+        156
+      ],
+      "size": {
+        "0": 330,
+        "1": 46
+      },
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_tensor1",
+          "type": "VCAUDIOTENSOR",
+          "link": 75
+        },
+        {
+          "name": "audio_tensor2",
+          "type": "VCAUDIOTENSOR",
+          "link": 83
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "links": [
+            70
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "audio_tensor_concat"
+      }
+    },
+    {
+      "id": 50,
+      "type": "Note",
+      "pos": [
+        -252,
+        176
+      ],
+      "size": [
+        255.08530273437475,
+        69.0083190917967
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "title": "Note: Samplerate",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Shouldn't change this, it's what the model is trained for."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 18,
+      "type": "Text Concatenate",
+      "pos": [
+        -36,
+        -140
+      ],
+      "size": {
+        "0": 315,
+        "1": 178
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_a",
+          "type": "STRING",
+          "link": 95,
+          "widget": {
+            "name": "text_a"
+          },
+          "slot_index": 0
+        },
+        {
+          "name": "text_b",
+          "type": "STRING",
+          "link": 26,
+          "widget": {
+            "name": "text_b"
+          }
+        },
+        {
+          "name": "text_c",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text_c"
+          }
+        },
+        {
+          "name": "text_d",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text_d"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            77
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Concatenate"
+      },
+      "widgets_values": [
+        "",
+        "true",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 53,
+      "type": "Note",
+      "pos": [
+        -60,
+        -70
+      ],
+      "size": [
+        323.4185273065142,
+        78.13360412276654
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "title": "Note: espeak-ng",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "espeak needs to be installed on your system:\nhttps://github.com/espeak-ng/espeak-ng"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 52,
+      "type": "Note",
+      "pos": [
+        1436,
+        58
+      ],
+      "size": [
+        263.56500253311924,
+        58
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "DeepFilterNet audio upsampling"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 11,
+      "type": "SimpleMath+",
+      "pos": [
+        986,
+        -264
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "INT,FLOAT",
+          "link": 58,
+          "slot_index": 0
+        },
+        {
+          "name": "b",
+          "type": "INT,FLOAT",
+          "link": 74,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            28
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SimpleMath+"
+      },
+      "widgets_values": [
+        "a*b"
+      ]
+    },
+    {
+      "id": 54,
+      "type": "Note",
+      "pos": [
+        940,
+        -371
+      ],
+      "size": {
+        "0": 263.56500244140625,
+        "1": 58
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "title": "Note: Simple Math",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Calculating amount of frames for the output video."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "VHS_AUDIO"
+    ],
+    [
+      7,
+      2,
+      1,
+      7,
+      0,
+      "INT"
+    ],
+    [
+      13,
+      10,
+      0,
+      4,
+      3,
+      "INT"
+    ],
+    [
+      19,
+      13,
+      0,
+      14,
+      0,
+      "VCAUDIOTENSOR"
+    ],
+    [
+      22,
+      15,
+      0,
+      13,
+      1,
+      "INT"
+    ],
+    [
+      23,
+      15,
+      0,
+      2,
+      1,
+      "INT"
+    ],
+    [
+      26,
+      19,
+      0,
+      18,
+      1,
+      "STRING"
+    ],
+    [
+      27,
+      19,
+      0,
+      20,
+      0,
+      "STRING"
+    ],
+    [
+      28,
+      11,
+      0,
+      20,
+      1,
+      "INT"
+    ],
+    [
+      40,
+      14,
+      0,
+      4,
+      1,
+      "VHS_AUDIO"
+    ],
+    [
+      45,
+      23,
+      0,
+      26,
+      1,
+      "STRING"
+    ],
+    [
+      58,
+      10,
+      0,
+      11,
+      0,
+      "INT,FLOAT"
+    ],
+    [
+      59,
+      10,
+      0,
+      30,
+      0,
+      "INT,FLOAT"
+    ],
+    [
+      61,
+      30,
+      0,
+      33,
+      1,
+      "INT"
+    ],
+    [
+      62,
+      23,
+      0,
+      33,
+      0,
+      "STRING"
+    ],
+    [
+      63,
+      20,
+      0,
+      34,
+      0,
+      "IMAGE"
+    ],
+    [
+      64,
+      33,
+      0,
+      34,
+      1,
+      "IMAGE"
+    ],
+    [
+      65,
+      34,
+      0,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      70,
+      35,
+      0,
+      13,
+      0,
+      "VCAUDIOTENSOR"
+    ],
+    [
+      73,
+      12,
+      0,
+      36,
+      0,
+      "VCMODEL"
+    ],
+    [
+      74,
+      36,
+      1,
+      11,
+      1,
+      "INT,FLOAT"
+    ],
+    [
+      75,
+      36,
+      3,
+      35,
+      0,
+      "VCAUDIOTENSOR"
+    ],
+    [
+      76,
+      15,
+      0,
+      36,
+      3,
+      "INT"
+    ],
+    [
+      77,
+      18,
+      0,
+      36,
+      2,
+      "STRING"
+    ],
+    [
+      79,
+      12,
+      0,
+      37,
+      0,
+      "VCMODEL"
+    ],
+    [
+      80,
+      26,
+      0,
+      37,
+      2,
+      "STRING"
+    ],
+    [
+      81,
+      15,
+      0,
+      37,
+      3,
+      "INT"
+    ],
+    [
+      82,
+      37,
+      1,
+      30,
+      1,
+      "INT,FLOAT"
+    ],
+    [
+      83,
+      37,
+      3,
+      35,
+      1,
+      "VCAUDIOTENSOR"
+    ],
+    [
+      95,
+      16,
+      0,
+      18,
+      0,
+      "STRING"
+    ],
+    [
+      96,
+      16,
+      0,
+      26,
+      0,
+      "STRING"
+    ],
+    [
+      106,
+      2,
+      0,
+      36,
+      1,
+      "VCAUDIOTENSOR"
+    ],
+    [
+      107,
+      2,
+      0,
+      37,
+      1,
+      "VCAUDIOTENSOR"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}
