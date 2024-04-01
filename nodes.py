@@ -18,7 +18,8 @@ import platform
 script_directory = os.path.dirname(os.path.abspath(__file__))
 folder_paths.add_model_folder_path("voicecraft_samples", os.path.join(script_directory, "demo"))
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   
-os.environ["CUDA_VISIBLE_DEVICES"]="0"  
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
+
     
 class voicecraft_model_loader:
     @classmethod
@@ -26,10 +27,8 @@ class voicecraft_model_loader:
         return {"required": {
             
             },
-            "optional": {
-                "espeak_library_path": ("STRING", {"default": "", "forceInput":True}),
-            }
         }
+        
 
     RETURN_TYPES = ("VCMODEL",)
     RETURN_NAMES = ("voicecraft_model",)
@@ -43,16 +42,13 @@ class voicecraft_model_loader:
         if not hasattr(self, 'model') or self.model == None:
             if espeak_library_path == "" and platform.system() == "Windows":
                 print("espeak_library_path not set, using default")
-                espeak_library_path_windows = os.path.join(script_directory, 'espeak-ng', 'libespeak-ng.dll') #TODO linux?
+                espeak_library_path_windows = os.path.join(script_directory, 'espeak-ng', 'libespeak-ng.dll')
                 espeak_library_path = espeak_library_path_windows
                 print("Setting espeak_library_path: ", espeak_library_path_windows)
                 TextTokenizer.set_library(espeak_library_path)
 
             model_path = os.path.join(folder_paths.models_dir,'voicecraft')
-            try:
-                text_tokenizer = TextTokenizer(backend="espeak")
-            except:
-                print("Failed to initialize TextTokenizer")
+            text_tokenizer = TextTokenizer(backend="espeak")
            
             voicecraft_name="giga830M.pth"
             
@@ -149,9 +145,10 @@ class voicecraft_process:
     def INPUT_TYPES(s):
         return {"required": {
             "voicecraft_model": ("VCMODEL",),
-            "original_sample": (folder_paths.get_filename_list("voicecraft_samples"), ),
+            "audio_tensor": ("VCAUDIOTENSOR", ),
+            "sample_rate": ("INT", {"default": 16000, "min": 0, "max": 48000}),
             "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
-            "cut_off_sec": ("FLOAT", {"default": 3.01, "min": 0, "max": 4096, "step": 0.01}),
+            #"cut_off_sec": ("FLOAT", {"default": 3.01, "min": 0, "max": 4096, "step": 0.01}),
             "top_k": ("FLOAT", {"default": 0, "min": 0, "max": 1024, "step": 0.01}),
             "top_p": ("FLOAT", {"default": 0.8, "min": 0, "max": 1, "step": 0.01}),
             "temperature": ("FLOAT", {"default": 1.0, "min": 0, "max": 100, "step": 0.01}),
@@ -159,10 +156,6 @@ class voicecraft_process:
             "sample_batch_size": ("INT", {"default": 4, "min": 1, "max": 1024, "step": 1}),
             "target_transcript": ("STRING", {"default": "But when I had approached so near to them The common To unlock the multitude of control types and artistic flows possible with AI, we want to build tooling and infrastructure to empower a community of tool-builders, who in-turn empower a world of budding artists.", "multiline":True}),
             },
-            "optional": {
-                "audio_tensor": ("VCAUDIOTENSOR", ),
-            }
-    
         }
 
     RETURN_TYPES = ("VHS_AUDIO", "INT", "STRING", "VCAUDIOTENSOR",)
@@ -170,9 +163,10 @@ class voicecraft_process:
     FUNCTION = "process"
     CATEGORY = "VoiceCraft"
 
-    def process(self, voicecraft_model,cut_off_sec, original_sample, seed, target_transcript, top_k, top_p, temperature, stop_repetition, sample_batch_size, audio_tensor=None):
+    def process(self, audio_tensor, sample_rate, voicecraft_model, seed, target_transcript, top_k, top_p, temperature, stop_repetition, sample_batch_size):
         device = mm.get_torch_device()
         mm.soft_empty_cache()
+        offload_device = mm.unet_offload_device()
         torch.manual_seed(seed)
         # hyperparameters for inference
         #left_margin = 0.08 # not used for TTS, only for speech editing
@@ -200,16 +194,16 @@ class voicecraft_process:
         #os.makedirs(align_temp, exist_ok=True)
         #os.system(f"mfa align -j 1 --output_format csv {temp_folder} english_us_arpa english_us_arpa {align_temp}")
         #audio_fn = os.path.join(temp_folder,f"{filename}.wav")
-        audio_fn = folder_paths.get_full_path("voicecraft_samples", original_sample)
+        #audio_fn = folder_paths.get_full_path("voicecraft_samples", original_sample)
         #transcript_fn = f"{temp_folder}/{filename}.txt"
         #align_fn = f"{align_temp}/{filename}.csv"
         #cut_off_sec = 3.01 # NOTE: according to forced-alignment file, the word "common" stop as 3.01 sec, this should be different for different audio
         #target_transcript = "We believe that AI has the potential to allow billions to experience creative fulfilment this century. However, in order to reach this potential, artistic control is key - it's the difference between something feeling like it was made by you rather than for you. To unlock the multitude of control types and artistic flows possible with AI, we want to build tooling and infrastructure to empower a community of tool-builders, who in-turn empower a world of budding artists."
-        info = torchaudio.info(audio_fn)
-        audio_dur = info.num_frames / info.sample_rate
+        #info = torchaudio.info(audio_fn)
+        audio_dur = audio_tensor.shape[-1] / sample_rate
 
-        assert cut_off_sec < audio_dur, f"cut_off_sec {cut_off_sec} is larger than the audio duration {audio_dur}"
-        prompt_end_frame = int(cut_off_sec * info.sample_rate)
+        #assert cut_off_sec < audio_dur, f"cut_off_sec {cut_off_sec} is larger than the audio duration {audio_dur}"
+        #prompt_end_frame = int(cut_off_sec * sample_rate)
     
         # phonemize
         text_tokens = [voicecraft_model["phn2num"][phn] for phn in
@@ -221,16 +215,17 @@ class voicecraft_process:
         text_tokens_lens = torch.LongTensor([text_tokens.shape[-1]])
 
         # encode audio
-        if audio_tensor == None:
-            encoded_frames = tokenize_audio(voicecraft_model["audio_tokenizer"], audio_fn, offset=0, num_frames=prompt_end_frame)
-        else:
-            encoded_frames = voicecraft_model["audio_tokenizer"].encode(audio_tensor.unsqueeze(0))
+        #if audio_tensor == None:
+            #encoded_frames = tokenize_audio(voicecraft_model["audio_tokenizer"], audio_fn, offset=0, num_frames=prompt_end_frame)
+        #else:
+        encoded_frames = voicecraft_model["audio_tokenizer"].encode(audio_tensor.unsqueeze(0))
 
         original_audio = encoded_frames[0][0].transpose(2,1) # [1,T,K]
         assert original_audio.ndim==3 and original_audio.shape[0] == 1 and original_audio.shape[2] == voicecraft_model["config"].n_codebooks, original_audio.shape
         print(f"original audio length: {original_audio.shape[1]} codec frames, which is {original_audio.shape[1]/codec_sr:.2f} sec.")
 
         # forward
+        voicecraft_model["model"].to(device)
         stime = time.time()
         if sample_batch_size <= 1:
             print(f"running inference with batch size 1")
@@ -259,6 +254,7 @@ class voicecraft_process:
                 batch_size = sample_batch_size,
                 silence_tokens=eval(silence_tokens) if type(silence_tokens)==str else silence_tokens
             ) # output is [1,K,T]
+        voicecraft_model["model"].to(offload_device)
         print(f"inference on one sample take: {time.time() - stime:.4f} sec.")
 
         print(f"generated encoded_frames.shape: {gen_frames.shape}, which is {gen_frames.shape[-1]/codec_sr} sec.")
@@ -266,14 +262,11 @@ class voicecraft_process:
         # concat_sample = voicecraft_model["audio_tokenizer"].decode(
         #     [(concat_frames, None)] # [1,T,8] -> [1,8,T]
         # )
+             
         gen_sample = voicecraft_model["audio_tokenizer"].decode(
             [(gen_frames, None)]
         )
-       
         gen_audio_tensor = gen_sample[0].cpu()
-
-        # Define the sample rate
-        sample_rate = codec_audio_sr
 
         # Save generated audio to a WAV file
         gen_audio_path = os.path.join(script_directory, "temp", "gen_audio.wav")
@@ -302,6 +295,8 @@ class audio_tensor_to_vhs_audio:
     def INPUT_TYPES(s):
         return {"required": {
             "audio_tensor": ("VCAUDIOTENSOR",),
+            "sample_rate": ("INT", {"default": 16000, "min": 0, "max": 48000}),
+           
              },
     
         }
@@ -311,12 +306,14 @@ class audio_tensor_to_vhs_audio:
     FUNCTION = "process"
     CATEGORY = "VoiceCraft"
 
-    def process(self, audio_tensor):
+    def process(self, audio_tensor, sample_rate):
 
         # Save generated audio to a WAV file
         audio_path = os.path.join(script_directory, "temp", "gen_audio.wav")
-        torchaudio.save(audio_path, audio_tensor, 16000)
+        
+        torchaudio.save(audio_path, audio_tensor, sample_rate)
         audio_info = torchaudio.info(audio_path)
+        
         audio_dur = audio_info.num_frames / audio_info.sample_rate
  
         try:
@@ -342,14 +339,14 @@ class vhs_audio_to_audio_tensor:
     def INPUT_TYPES(s):
         return {"required": {
             "vhs_audio": ("VHS_AUDIO",),
-            "target_sample_rate": ("INT", {"default": 16000, "min": 0, "max": 160000}),
+            "target_sample_rate": ("INT", {"default": 16000, "min": 0, "max": 48000}),
             "target_channels": ("INT", {"default": 1, "min": 1, "max": 2}),
              },
     
         }
 
-    RETURN_TYPES = ("VCAUDIOTENSOR",)
-    RETURN_NAMES = ("audio_tensor", )
+    RETURN_TYPES = ("VCAUDIOTENSOR", "INT",)
+    RETURN_NAMES = ("audio_tensor", "audio_dur",)
     FUNCTION = "process"
     CATEGORY = "VoiceCraft"
 
@@ -368,9 +365,9 @@ class vhs_audio_to_audio_tensor:
         elif audio_tensor.shape[0] == 1:
             audio_tensor = audio_tensor.expand(target_channels, -1)
         resampled_audio_tensor = torchaudio.functional.resample(audio_tensor, sample_rate, target_sample_rate)
-
-        # Return the new audio_lambda
-        return (resampled_audio_tensor,)
+        audio_dur = audio_tensor.shape[1] / target_sample_rate
+        
+        return (resampled_audio_tensor, audio_dur,)
 
 class audio_tensor_concat:
     @classmethod
@@ -396,6 +393,29 @@ class audio_tensor_concat:
         audio_dur = concatenated_audio.shape[0] / sample_rate
 
         return (concatenated_audio, audio_dur,)
+    
+class audio_tensor_split:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "audio_tensor": ("VCAUDIOTENSOR",),
+            "sample_rate": ("INT", {"default": 16000, "min": 0, "max": 48000}),
+            "split_at_seconds": ("FLOAT", {"default": 8, "min": 0, "max": 4096, "step": 0.01}),
+             },
+    
+        }
+
+    RETURN_TYPES = ("VCAUDIOTENSOR", "VCAUDIOTENSOR",)
+    RETURN_NAMES = ("audio_tensor1", "audio_tensor2",)
+    FUNCTION = "process"
+    CATEGORY = "VoiceCraft"
+
+    def process(self, audio_tensor, split_at_seconds, sample_rate):
+        split_at_frames = int(split_at_seconds * sample_rate)
+        audio_tensor1 = audio_tensor[:, :split_at_frames]
+        audio_tensor2 = audio_tensor[:, split_at_frames:]
+
+        return (audio_tensor1, audio_tensor2,)
 
 class musicgen:
     @classmethod
@@ -434,6 +454,31 @@ class musicgen:
         audio_dur = audio_tensor.shape[2] / sample_rate
         return (audio_tensor[0].cpu(), audio_dur,)
 
+class audio_tensor_enhance:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "audio_tensor": ("VCAUDIOTENSOR",),
+            "original_sample_rate": ("INT", {"default": 16000, "min": 0, "max": 48000}),
+             },
+        }
+
+    RETURN_TYPES = ("VCAUDIOTENSOR", "INT",)
+    RETURN_NAMES = ("audio_tensor", "audio_dur",)
+    FUNCTION = "process"
+    CATEGORY = "VoiceCraft"
+
+    def process(self, audio_tensor, original_sample_rate):
+        from df.enhance import enhance, init_df, resample
+        model, df_state, _ = init_df()
+        sr = df_state.sr()
+        print("df_state.sr: ",sr)
+
+        audio = resample(audio_tensor, original_sample_rate, sr)
+        enhanced = enhance(model, df_state, audio)
+        return (enhanced,)
+    
+
 NODE_CLASS_MAPPINGS = {
     "voicecraft_model_loader": voicecraft_model_loader,
     "voicecraft_process": voicecraft_process,
@@ -441,7 +486,9 @@ NODE_CLASS_MAPPINGS = {
     "audio_tensor_to_vhs_audio": audio_tensor_to_vhs_audio,
     "vhs_audio_to_audio_tensor": vhs_audio_to_audio_tensor,
     "musicgen": musicgen,
-    "audiocraft_model_loader": audiocraft_model_loader
+    "audiocraft_model_loader": audiocraft_model_loader,
+    "audio_tensor_enhance": audio_tensor_enhance,
+    "audio_tensor_split": audio_tensor_split
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     "voicecraft_model_loader": "VoiceCraft Model Loader",
@@ -450,5 +497,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "audio_tensor_to_vhs_audio": "Audio Tensor To VHS Audio",
     "vhs_audio_to_audio_tensor": "VHS Audio To Audio Tensor",
     "musicgen": "MusicGen",
-    "audiocraft_model_loader": "AudioCraft Model Loader"
+    "audiocraft_model_loader": "AudioCraft Model Loader",
+    "audio_tensor_enhance": "Audio Tensor Enhance",
+    "audio_tensor_split": "Audio Tensor Split"
 }
