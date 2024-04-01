@@ -535,7 +535,53 @@ class whisper_transcription:
             return (result["text"].strip(), word_end_time)
         else:
             return (result["text"].strip(), None)
-    
+
+class distil_whisper_transcription:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": { 
+                "audio_tensor" : ("VCAUDIOTENSOR",),
+                "chunk_length_s": ("INT", {"default": 0, "min": 0, "max": 1000000}),
+            }
+        }
+
+    RETURN_TYPES = ("STRING", )
+    RETURN_NAMES = ("transcript", )
+    FUNCTION = "whispertranscribe"
+    CATEGORY = "VoiceCraft"
+
+    def whispertranscribe(self, audio_tensor, chunk_length_s):
+        from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
+
+        device = mm.get_torch_device()
+        torch_dtype = torch.float16 if mm.should_use_fp16(device) else torch.float32
+
+        model_id = "distil-whisper/distil-large-v3"
+
+        model = AutoModelForSpeechSeq2Seq.from_pretrained(
+            model_id, torch_dtype=torch_dtype, low_cpu_mem_usage=True, use_safetensors=True
+        )
+        model.to(device)
+
+        processor = AutoProcessor.from_pretrained(model_id)
+
+        pipe = pipeline(
+            "automatic-speech-recognition",
+            model=model,
+            tokenizer=processor.tokenizer,
+            feature_extractor=processor.feature_extractor,
+            max_new_tokens=128,
+            chunk_length_s=chunk_length_s if chunk_length_s > 0 else None,
+            torch_dtype=torch_dtype,
+            device=device,
+        )
+        
+        result = pipe(audio_tensor.squeeze(0).numpy(), return_timestamps=False)
+
+        return (result["text"].strip(),)
+                
+        
 NODE_CLASS_MAPPINGS = {
     "voicecraft_model_loader": voicecraft_model_loader,
     "voicecraft_process": voicecraft_process,
@@ -546,7 +592,8 @@ NODE_CLASS_MAPPINGS = {
     "audiocraft_model_loader": audiocraft_model_loader,
     "audio_tensor_enhance": audio_tensor_enhance,
     "audio_tensor_split": audio_tensor_split,
-    "whisper_transcription": whisper_transcription
+    "whisper_transcription": whisper_transcription,
+    "distil_whisper_transcription": distil_whisper_transcription
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     "voicecraft_model_loader": "VoiceCraft Model Loader",
@@ -558,5 +605,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "audiocraft_model_loader": "AudioCraft Model Loader",
     "audio_tensor_enhance": "Audio Tensor Enhance",
     "audio_tensor_split": "Audio Tensor Split",
-    "whisper_transcription": "Whisper Transcription"
+    "whisper_transcription": "Whisper Transcription",
+    "distil_whisper_transcription": "Distil-Whisper-v3 Transcription"
 }
