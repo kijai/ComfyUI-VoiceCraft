@@ -478,7 +478,64 @@ class audio_tensor_enhance:
         enhanced = enhance(model, df_state, audio)
         return (enhanced,)
     
+class whisper_transcription:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": { 
+                "audio_tensor" : ("VCAUDIOTENSOR",),
+                "whisper_model": (
+                    [
+                    "base",
+                    "tiny",
+                    "small",
+                    "medium",
+                    "large"
+                    ]
+                    ,),
+                "search_word": ("STRING", {"default": "", "multiline":False}),
+            }
+        }
 
+    RETURN_TYPES = ("STRING", "FLOAT", )
+    RETURN_NAMES = ("transcript", "word_end_time",)
+    FUNCTION = "whispertranscribe"
+    CATEGORY = "VoiceCraft"
+
+    def whispertranscribe(self, audio_tensor, whisper_model, search_word):
+        import whisper
+        import string
+        # Define a translation table to remove punctuation
+        remove_punct_table = str.maketrans('', '', string.punctuation + ' ')
+        model = whisper.load_model(whisper_model)
+        result = model.transcribe(audio_tensor.squeeze(0), word_timestamps=True)
+   
+        # Initialize variable to store the end time of the searched word
+        word_end_time = None
+
+        # Iterate over segments to access word timestamps
+        for segment in result['segments']:
+            # Iterate over words in the segment to access word timestamps
+            for word in segment['words']:
+                print(f"Transcribed word: {word['word']} - End time: {word['end']}")
+
+                word_text = word['word'].translate(remove_punct_table).lower()
+                word_end = word['end']
+
+                # Check if the current word matches the search word
+                if word_text == search_word.translate(remove_punct_table).lower():
+                    word_end_time = word_end
+                    break # Exit the loop once the word is found
+
+            # If the word is found, break the outer loop as well
+            if word_end_time is not None:
+                break
+
+        if word_end_time is not None:
+            return (result["text"].strip(), word_end_time)
+        else:
+            return (result["text"].strip(), None)
+    
 NODE_CLASS_MAPPINGS = {
     "voicecraft_model_loader": voicecraft_model_loader,
     "voicecraft_process": voicecraft_process,
@@ -488,7 +545,8 @@ NODE_CLASS_MAPPINGS = {
     "musicgen": musicgen,
     "audiocraft_model_loader": audiocraft_model_loader,
     "audio_tensor_enhance": audio_tensor_enhance,
-    "audio_tensor_split": audio_tensor_split
+    "audio_tensor_split": audio_tensor_split,
+    "whisper_transcription": whisper_transcription
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     "voicecraft_model_loader": "VoiceCraft Model Loader",
@@ -499,5 +557,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "musicgen": "MusicGen",
     "audiocraft_model_loader": "AudioCraft Model Loader",
     "audio_tensor_enhance": "Audio Tensor Enhance",
-    "audio_tensor_split": "Audio Tensor Split"
+    "audio_tensor_split": "Audio Tensor Split",
+    "whisper_transcription": "Whisper Transcription"
 }
