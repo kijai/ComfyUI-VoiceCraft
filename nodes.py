@@ -28,12 +28,19 @@ class voicecraft_model_loader:
             
             },
         }
-        
-
+    
     RETURN_TYPES = ("VCMODEL",)
     RETURN_NAMES = ("voicecraft_model",)
     FUNCTION = "loadmodel"
     CATEGORY = "VoiceCraft"
+    DESCRIPTION = """
+Loads (and downloads) the larger (giga830M.pth) VoiceCraft model from:  
+https://huggingface.co/pyp1/VoiceCraft/tree/main  
+to ComfyUI/models/voicecraft  
+  
+espeak-ng must be installed in your operating system:  
+https://github.com/espeak-ng/espeak-ng
+"""
 
     def loadmodel(self, espeak_library_path=""):
         mm.soft_empty_cache()
@@ -102,7 +109,6 @@ class audiocraft_model_loader:
                 'magnet-medium-10secs',
                 'audio-magnet-small',
                 'audio-magnet-medium'
-
             ],
             {
             "default": 'musicgen-melody'
@@ -148,7 +154,6 @@ class voicecraft_process:
             "audio_tensor": ("VCAUDIOTENSOR", ),
             "sample_rate": ("INT", {"default": 16000, "min": 0, "max": 48000}),
             "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
-            #"cut_off_sec": ("FLOAT", {"default": 3.01, "min": 0, "max": 4096, "step": 0.01}),
             "top_k": ("FLOAT", {"default": 0, "min": 0, "max": 1024, "step": 0.01}),
             "top_p": ("FLOAT", {"default": 0.8, "min": 0, "max": 1, "step": 0.01}),
             "temperature": ("FLOAT", {"default": 1.0, "min": 0, "max": 100, "step": 0.01}),
@@ -162,6 +167,26 @@ class voicecraft_process:
     RETURN_NAMES = ("vhs_audio", "audio_dur", "gen_audio_path", "audio_tensor",)
     FUNCTION = "process"
     CATEGORY = "VoiceCraft"
+    DESCRIPTION = """
+# Processes audio tensor using VoiceCraft model
+ - sample_rate: sample rate of the audio tensor, model expects 16k  
+ - seed: seed for the random generator
+ - top_k:  limits the model's choice to the top k most probable next words.  
+   This means the model will only consider the k most likely words to follow  
+   the current word in the sequence.
+ - top_p: A low top_p value makes the output more deterministic,  
+ while a high top_p value allows for more diversity.
+ - temperature:  controls the randomness of the model's output. A higher  
+ temperature value makes the output more random, while a lower temperature  
+ value makes it more deterministic.
+ - stop_repetition: if there are long silence in the generated audio,  
+ reduce the stop_repetition to 3, 2 or even 1
+ - sample_batch_size: if there are long silence or  
+ unnaturally strecthed words, increase sample_batch_size to 2, 3 or even 4
+ - target_transcript: text to be synthesized, the start should include  
+ the init audio transcript
+
+"""
 
     def process(self, audio_tensor, sample_rate, voicecraft_model, seed, target_transcript, top_k, top_p, temperature, stop_repetition, sample_batch_size):
         device = mm.get_torch_device()
@@ -174,36 +199,9 @@ class voicecraft_process:
         codec_audio_sr = 16000
         codec_sr = 50
         kvcache = 1
-        silence_tokens=[1388,1898,131]
-        
-        # adjust the below three arguments if the generation is not as good
-        #stop_repetition = 3 # if there are long silence in the generated audio, reduce the stop_repetition to 3, 2 or even 1
-        #sample_batch_size = 4 # if there are long silence or unnaturally strecthed words, increase sample_batch_size to 2, 3 or even 4
-        
-        #demo_dir = os.path.join(script_directory,'demo')
-        #orig_audio = os.path.join(demo_dir, "84_121550_000074_000000.wav")
-        #orig_transcript = "But when I had approached so near to them The common object, which the sense deceives, Lost not by distance any of its marks,"
-        #temp_folder = os.path.join(demo_dir, "temp")
-        #os.makedirs(temp_folder, exist_ok=True)
-        #os.system(f"copy {orig_audio} {temp_folder}")
-        #filename = os.path.splitext(orig_audio.split("/")[-1])[0]
-        #with open(os.path.join(temp_folder, filename,f"{filename}.txt"), "w") as f:
-        #    f.write(orig_transcript)
-        # run MFA to get the alignment
-        #align_temp = os.path.join(temp_folder,"mfa_alignments")
-        #os.makedirs(align_temp, exist_ok=True)
-        #os.system(f"mfa align -j 1 --output_format csv {temp_folder} english_us_arpa english_us_arpa {align_temp}")
-        #audio_fn = os.path.join(temp_folder,f"{filename}.wav")
-        #audio_fn = folder_paths.get_full_path("voicecraft_samples", original_sample)
-        #transcript_fn = f"{temp_folder}/{filename}.txt"
-        #align_fn = f"{align_temp}/{filename}.csv"
-        #cut_off_sec = 3.01 # NOTE: according to forced-alignment file, the word "common" stop as 3.01 sec, this should be different for different audio
-        #target_transcript = "We believe that AI has the potential to allow billions to experience creative fulfilment this century. However, in order to reach this potential, artistic control is key - it's the difference between something feeling like it was made by you rather than for you. To unlock the multitude of control types and artistic flows possible with AI, we want to build tooling and infrastructure to empower a community of tool-builders, who in-turn empower a world of budding artists."
-        #info = torchaudio.info(audio_fn)
-        audio_dur = audio_tensor.shape[-1] / sample_rate
+        silence_tokens=[1388,1898,131]        
 
-        #assert cut_off_sec < audio_dur, f"cut_off_sec {cut_off_sec} is larger than the audio duration {audio_dur}"
-        #prompt_end_frame = int(cut_off_sec * sample_rate)
+        audio_dur = audio_tensor.shape[-1] / sample_rate
     
         # phonemize
         text_tokens = [voicecraft_model["phn2num"][phn] for phn in
@@ -214,10 +212,6 @@ class voicecraft_process:
         text_tokens = torch.LongTensor(text_tokens).unsqueeze(0)
         text_tokens_lens = torch.LongTensor([text_tokens.shape[-1]])
 
-        # encode audio
-        #if audio_tensor == None:
-            #encoded_frames = tokenize_audio(voicecraft_model["audio_tokenizer"], audio_fn, offset=0, num_frames=prompt_end_frame)
-        #else:
         encoded_frames = voicecraft_model["audio_tokenizer"].encode(audio_tensor.unsqueeze(0))
 
         original_audio = encoded_frames[0][0].transpose(2,1) # [1,T,K]
@@ -256,12 +250,7 @@ class voicecraft_process:
             ) # output is [1,K,T]
         voicecraft_model["model"].to(offload_device)
         print(f"inference on one sample take: {time.time() - stime:.4f} sec.")
-
         print(f"generated encoded_frames.shape: {gen_frames.shape}, which is {gen_frames.shape[-1]/codec_sr} sec.")
-        
-        # concat_sample = voicecraft_model["audio_tokenizer"].decode(
-        #     [(concat_frames, None)] # [1,T,8] -> [1,8,T]
-        # )
              
         gen_sample = voicecraft_model["audio_tokenizer"].decode(
             [(gen_frames, None)]
@@ -296,9 +285,7 @@ class audio_tensor_to_vhs_audio:
         return {"required": {
             "audio_tensor": ("VCAUDIOTENSOR",),
             "sample_rate": ("INT", {"default": 16000, "min": 0, "max": 48000}),
-           
              },
-    
         }
 
     RETURN_TYPES = ("VHS_AUDIO", "INT",)
@@ -467,6 +454,10 @@ class audio_tensor_enhance:
     RETURN_NAMES = ("audio_tensor", "audio_dur",)
     FUNCTION = "process"
     CATEGORY = "VoiceCraft"
+    DESCRIPTION = """
+Enhances the audio tensor with DeepFilterNet:  
+https://github.com/Rikorose/DeepFilterNet
+"""
 
     def process(self, audio_tensor, original_sample_rate):
         from df.enhance import enhance, init_df, resample
