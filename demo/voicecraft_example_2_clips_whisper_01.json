@@ -1,6 +1,6 @@
 {
-  "last_node_id": 62,
-  "last_link_id": 122,
+  "last_node_id": 67,
+  "last_link_id": 133,
   "nodes": [
     {
       "id": 33,
@@ -72,156 +72,6 @@
       ]
     },
     {
-      "id": 14,
-      "type": "audio_tensor_to_vhs_audio",
-      "pos": [
-        1829,
-        149
-      ],
-      "size": {
-        "0": 279.5999755859375,
-        "1": 78
-      },
-      "flags": {},
-      "order": 31,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "audio_tensor",
-          "type": "VCAUDIOTENSOR",
-          "link": 19
-        }
-      ],
-      "outputs": [
-        {
-          "name": "vhs_audio",
-          "type": "VHS_AUDIO",
-          "links": [
-            40
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "audio_dur",
-          "type": "INT",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "audio_tensor_to_vhs_audio"
-      },
-      "widgets_values": [
-        48000
-      ]
-    },
-    {
-      "id": 10,
-      "type": "INTConstant",
-      "pos": [
-        500,
-        -290
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "value",
-          "type": "INT",
-          "links": [
-            13,
-            58,
-            59
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "title": "Framerate",
-      "properties": {
-        "Node name for S&R": "INTConstant"
-      },
-      "widgets_values": [
-        24
-      ],
-      "color": "#1b4669",
-      "bgcolor": "#29699c"
-    },
-    {
-      "id": 20,
-      "type": "CreateTextMask",
-      "pos": [
-        1322,
-        -393
-      ],
-      "size": {
-        "0": 400,
-        "1": 360
-      },
-      "flags": {},
-      "order": 27,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 27,
-          "widget": {
-            "name": "text"
-          },
-          "slot_index": 0
-        },
-        {
-          "name": "frames",
-          "type": "INT",
-          "link": 28,
-          "widget": {
-            "name": "frames"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            63
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "CreateTextMask"
-      },
-      "widgets_values": [
-        false,
-        1,
-        0,
-        0,
-        32,
-        "white",
-        "HELLO!",
-        "TTNorms-Black.otf",
-        512,
-        512,
-        0,
-        0
-      ]
-    },
-    {
       "id": 34,
       "type": "ImageBatch",
       "pos": [
@@ -252,7 +102,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            65
+            129
           ],
           "shape": 3,
           "slot_index": 0
@@ -261,60 +111,6 @@
       "properties": {
         "Node name for S&R": "ImageBatch"
       }
-    },
-    {
-      "id": 30,
-      "type": "SimpleMath+",
-      "pos": [
-        960,
-        581
-      ],
-      "size": {
-        "0": 315,
-        "1": 78
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 25,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "a",
-          "type": "INT,FLOAT",
-          "link": 59,
-          "slot_index": 0
-        },
-        {
-          "name": "b",
-          "type": "INT,FLOAT",
-          "link": 82,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            61
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "FLOAT",
-          "type": "FLOAT",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SimpleMath+"
-      },
-      "widgets_values": [
-        "a*b"
-      ]
     },
     {
       "id": 52,
@@ -328,7 +124,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 1,
+      "order": 0,
       "mode": 0,
       "properties": {
         "text": ""
@@ -338,190 +134,6 @@
       ],
       "color": "#432",
       "bgcolor": "#653"
-    },
-    {
-      "id": 11,
-      "type": "SimpleMath+",
-      "pos": [
-        986,
-        -264
-      ],
-      "size": {
-        "0": 315,
-        "1": 78
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 24,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "a",
-          "type": "INT,FLOAT",
-          "link": 58,
-          "slot_index": 0
-        },
-        {
-          "name": "b",
-          "type": "INT,FLOAT",
-          "link": 74,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            28
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "FLOAT",
-          "type": "FLOAT",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SimpleMath+"
-      },
-      "widgets_values": [
-        "a*b"
-      ]
-    },
-    {
-      "id": 54,
-      "type": "Note",
-      "pos": [
-        940,
-        -371
-      ],
-      "size": {
-        "0": 263.56500244140625,
-        "1": 58
-      },
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "title": "Note: Simple Math",
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "Calculating amount of frames for the output video."
-      ],
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
-      "id": 19,
-      "type": "Text Multiline",
-      "pos": [
-        -630,
-        -377
-      ],
-      "size": {
-        "0": 394.5824279785156,
-        "1": 153.08929443359375
-      },
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            26,
-            27
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Text Multiline"
-      },
-      "widgets_values": [
-        "This is an example workflow that generates two clips from a single input clip. This input clip originates from the VoiceCraft demo page."
-      ]
-    },
-    {
-      "id": 4,
-      "type": "VHS_VideoCombine",
-      "pos": [
-        2220,
-        76
-      ],
-      "size": [
-        315,
-        595
-      ],
-      "flags": {},
-      "order": 32,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 65,
-          "slot_index": 0
-        },
-        {
-          "name": "audio",
-          "type": "VHS_AUDIO",
-          "link": 40
-        },
-        {
-          "name": "batch_manager",
-          "type": "VHS_BatchManager",
-          "link": null
-        },
-        {
-          "name": "frame_rate",
-          "type": "INT",
-          "link": 13,
-          "widget": {
-            "name": "frame_rate"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "Filenames",
-          "type": "VHS_FILENAMES",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VHS_VideoCombine"
-      },
-      "widgets_values": {
-        "frame_rate": 8,
-        "loop_count": 0,
-        "filename_prefix": "AnimateDiff",
-        "format": "video/h264-mp4",
-        "pix_fmt": "yuv420p",
-        "crf": 19,
-        "save_metadata": true,
-        "pingpong": false,
-        "save_output": false,
-        "videopreview": {
-          "hidden": false,
-          "paused": false,
-          "params": {
-            "filename": "AnimateDiff_00005-audio.mp4",
-            "subfolder": "",
-            "type": "temp",
-            "format": "video/h264-mp4"
-          }
-        }
-      }
     },
     {
       "id": 35,
@@ -582,7 +194,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 4,
+      "order": 1,
       "mode": 0,
       "outputs": [
         {
@@ -615,7 +227,7 @@
         "1": 78.13360595703125
       },
       "flags": {},
-      "order": 5,
+      "order": 2,
       "mode": 0,
       "title": "Note: espeak-ng",
       "properties": {
@@ -639,7 +251,7 @@
         "1": 26
       },
       "flags": {},
-      "order": 6,
+      "order": 3,
       "mode": 0,
       "outputs": [
         {
@@ -671,7 +283,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 7,
+      "order": 4,
       "mode": 0,
       "outputs": [
         {
@@ -705,7 +317,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 8,
+      "order": 5,
       "mode": 0,
       "outputs": [
         {
@@ -726,60 +338,6 @@
       "bgcolor": "#29699c"
     },
     {
-      "id": 13,
-      "type": "audio_tensor_enhance",
-      "pos": [
-        1430,
-        157
-      ],
-      "size": {
-        "0": 317.4000244140625,
-        "1": 78
-      },
-      "flags": {},
-      "order": 29,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "audio_tensor",
-          "type": "VCAUDIOTENSOR",
-          "link": 70
-        },
-        {
-          "name": "original_sample_rate",
-          "type": "INT",
-          "link": 112,
-          "widget": {
-            "name": "original_sample_rate"
-          },
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "audio_tensor",
-          "type": "VCAUDIOTENSOR",
-          "links": [
-            19
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "audio_dur",
-          "type": "INT",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "audio_tensor_enhance"
-      },
-      "widgets_values": [
-        16000
-      ]
-    },
-    {
       "id": 59,
       "type": "GetNode",
       "pos": [
@@ -793,7 +351,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 9,
+      "order": 6,
       "mode": 0,
       "outputs": [
         {
@@ -825,7 +383,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 10,
+      "order": 7,
       "mode": 0,
       "outputs": [
         {
@@ -903,7 +461,7 @@
         "1": 69.00831604003906
       },
       "flags": {},
-      "order": 11,
+      "order": 8,
       "mode": 0,
       "title": "Note: Samplerate",
       "properties": {
@@ -914,35 +472,6 @@
       ],
       "color": "#432",
       "bgcolor": "#653"
-    },
-    {
-      "id": 60,
-      "type": "Display Any (rgthree)",
-      "pos": [
-        -682,
-        -67
-      ],
-      "size": [
-        328.66913574218756,
-        149.5604028320313
-      ],
-      "flags": {},
-      "order": 17,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "source",
-          "type": "*",
-          "link": 115,
-          "dir": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Display Any (rgthree)"
-      },
-      "widgets_values": [
-        ""
-      ]
     },
     {
       "id": 2,
@@ -1039,10 +568,10 @@
         -301,
         340
       ],
-      "size": [
-        278.5159912109375,
-        82.89967346191406
-      ],
+      "size": {
+        "0": 278.5159912109375,
+        "1": 82.89967346191406
+      },
       "flags": {},
       "order": 16,
       "mode": 0,
@@ -1077,7 +606,7 @@
         "1": 135.55711364746094
       },
       "flags": {},
-      "order": 12,
+      "order": 9,
       "mode": 0,
       "outputs": [
         {
@@ -1157,10 +686,10 @@
         -304,
         213
       ],
-      "size": [
-        330,
-        102
-      ],
+      "size": {
+        "0": 330,
+        "1": 102
+      },
       "flags": {},
       "order": 21,
       "mode": 0,
@@ -1353,6 +882,475 @@
       ]
     },
     {
+      "id": 20,
+      "type": "CreateTextMask",
+      "pos": [
+        1322,
+        -393
+      ],
+      "size": {
+        "0": 400,
+        "1": 360
+      },
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 27,
+          "widget": {
+            "name": "text"
+          },
+          "slot_index": 0
+        },
+        {
+          "name": "frames",
+          "type": "INT",
+          "link": 28,
+          "widget": {
+            "name": "frames"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            63
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateTextMask"
+      },
+      "widgets_values": [
+        false,
+        1,
+        2,
+        0,
+        32,
+        "white",
+        "HELLO!",
+        "TTNorms-Black.otf",
+        512,
+        512,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 11,
+      "type": "SimpleMath+",
+      "pos": [
+        986,
+        -264
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "INT,FLOAT",
+          "link": 132,
+          "slot_index": 0
+        },
+        {
+          "name": "b",
+          "type": "INT,FLOAT",
+          "link": 74,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            28
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SimpleMath+"
+      },
+      "widgets_values": [
+        "a*b"
+      ]
+    },
+    {
+      "id": 54,
+      "type": "Note",
+      "pos": [
+        963,
+        -442
+      ],
+      "size": {
+        "0": 263.56500244140625,
+        "1": 58
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "title": "Note: Simple Math",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Calculating amount of frames for the output video."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 30,
+      "type": "SimpleMath+",
+      "pos": [
+        960,
+        581
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "INT,FLOAT",
+          "link": 133,
+          "slot_index": 0
+        },
+        {
+          "name": "b",
+          "type": "INT,FLOAT",
+          "link": 82,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            61
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SimpleMath+"
+      },
+      "widgets_values": [
+        "a*b"
+      ]
+    },
+    {
+      "id": 63,
+      "type": "FloatConstant",
+      "pos": [
+        499,
+        -450
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "value",
+          "type": "FLOAT",
+          "links": [
+            131,
+            132,
+            133
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FloatConstant"
+      },
+      "widgets_values": [
+        24
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 67,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        2392,
+        -24
+      ],
+      "size": [
+        315,
+        595
+      ],
+      "flags": {},
+      "order": 32,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 129
+        },
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "link": 130
+        },
+        {
+          "name": "batch_manager",
+          "type": "VHS_BatchManager",
+          "link": null
+        },
+        {
+          "name": "frame_rate",
+          "type": "FLOAT",
+          "link": 131,
+          "widget": {
+            "name": "frame_rate"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 8,
+        "loop_count": 0,
+        "filename_prefix": "AnimateDiff",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 19,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": false,
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "filename": "AnimateDiff_00017-audio.mp4",
+            "subfolder": "",
+            "type": "temp",
+            "format": "video/h264-mp4"
+          }
+        }
+      }
+    },
+    {
+      "id": 60,
+      "type": "Display Any (rgthree)",
+      "pos": [
+        -682,
+        -67
+      ],
+      "size": {
+        "0": 328.66912841796875,
+        "1": 149.56040954589844
+      },
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 115,
+          "dir": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Display Any (rgthree)"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 19,
+      "type": "Text Multiline",
+      "pos": [
+        -630,
+        -377
+      ],
+      "size": {
+        "0": 394.5824279785156,
+        "1": 153.08929443359375
+      },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            26,
+            27
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "This is an example workflow that generates two clips from a single input clip. This input clip originates from the VoiceCraft demo page."
+      ]
+    },
+    {
+      "id": 14,
+      "type": "audio_tensor_to_vhs_audio",
+      "pos": [
+        1829,
+        149
+      ],
+      "size": {
+        "0": 279.5999755859375,
+        "1": 78
+      },
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "vhs_audio",
+          "type": "VHS_AUDIO",
+          "links": [
+            130
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "audio_tensor_to_vhs_audio"
+      },
+      "widgets_values": [
+        48000
+      ]
+    },
+    {
+      "id": 13,
+      "type": "audio_tensor_enhance",
+      "pos": [
+        1430,
+        157
+      ],
+      "size": {
+        "0": 317.4000244140625,
+        "1": 78
+      },
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "link": 70
+        },
+        {
+          "name": "original_sample_rate",
+          "type": "INT",
+          "link": 112,
+          "widget": {
+            "name": "original_sample_rate"
+          },
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "links": [
+            19
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "audio_tensor_enhance"
+      },
+      "widgets_values": [
+        16000
+      ]
+    },
+    {
       "id": 36,
       "type": "voicecraft_process",
       "pos": [
@@ -1431,7 +1429,7 @@
       },
       "widgets_values": [
         16000,
-        125,
+        126,
         "fixed",
         0,
         0.8,
@@ -1521,7 +1519,7 @@
       },
       "widgets_values": [
         16000,
-        125,
+        126,
         "fixed",
         0,
         0.8,
@@ -1547,14 +1545,6 @@
       1,
       7,
       0,
-      "INT"
-    ],
-    [
-      13,
-      10,
-      0,
-      4,
-      3,
       "INT"
     ],
     [
@@ -1590,36 +1580,12 @@
       "INT"
     ],
     [
-      40,
-      14,
-      0,
-      4,
-      1,
-      "VHS_AUDIO"
-    ],
-    [
       45,
       23,
       0,
       26,
       1,
       "STRING"
-    ],
-    [
-      58,
-      10,
-      0,
-      11,
-      0,
-      "INT,FLOAT"
-    ],
-    [
-      59,
-      10,
-      0,
-      30,
-      0,
-      "INT,FLOAT"
     ],
     [
       61,
@@ -1651,14 +1617,6 @@
       0,
       34,
       1,
-      "IMAGE"
-    ],
-    [
-      65,
-      34,
-      0,
-      4,
-      0,
       "IMAGE"
     ],
     [
@@ -1844,6 +1802,46 @@
       26,
       0,
       "STRING"
+    ],
+    [
+      129,
+      34,
+      0,
+      67,
+      0,
+      "IMAGE"
+    ],
+    [
+      130,
+      14,
+      0,
+      67,
+      1,
+      "VHS_AUDIO"
+    ],
+    [
+      131,
+      63,
+      0,
+      67,
+      3,
+      "FLOAT"
+    ],
+    [
+      132,
+      63,
+      0,
+      11,
+      0,
+      "INT,FLOAT"
+    ],
+    [
+      133,
+      63,
+      0,
+      30,
+      0,
+      "INT,FLOAT"
     ]
   ],
   "groups": [],

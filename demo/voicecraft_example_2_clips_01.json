@@ -1,6 +1,6 @@
 {
-  "last_node_id": 54,
-  "last_link_id": 107,
+  "last_node_id": 57,
+  "last_link_id": 114,
   "nodes": [
     {
       "id": 33,
@@ -97,7 +97,7 @@
           "name": "vhs_audio",
           "type": "VHS_AUDIO",
           "links": [
-            40
+            114
           ],
           "shape": 3,
           "slot_index": 0
@@ -273,43 +273,6 @@
       ]
     },
     {
-      "id": 10,
-      "type": "INTConstant",
-      "pos": [
-        500,
-        -290
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "value",
-          "type": "INT",
-          "links": [
-            13,
-            58,
-            59
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "title": "Framerate",
-      "properties": {
-        "Node name for S&R": "INTConstant"
-      },
-      "widgets_values": [
-        24
-      ],
-      "color": "#1b4669",
-      "bgcolor": "#29699c"
-    },
-    {
       "id": 20,
       "type": "CreateTextMask",
       "pos": [
@@ -408,7 +371,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            65
+            113
           ],
           "shape": 3,
           "slot_index": 0
@@ -419,89 +382,16 @@
       }
     },
     {
-      "id": 4,
-      "type": "VHS_VideoCombine",
-      "pos": [
-        2236,
-        73
-      ],
-      "size": [
-        315,
-        595
-      ],
-      "flags": {},
-      "order": 25,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 65,
-          "slot_index": 0
-        },
-        {
-          "name": "audio",
-          "type": "VHS_AUDIO",
-          "link": 40
-        },
-        {
-          "name": "batch_manager",
-          "type": "VHS_BatchManager",
-          "link": null
-        },
-        {
-          "name": "frame_rate",
-          "type": "INT",
-          "link": 13,
-          "widget": {
-            "name": "frame_rate"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "Filenames",
-          "type": "VHS_FILENAMES",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VHS_VideoCombine"
-      },
-      "widgets_values": {
-        "frame_rate": 8,
-        "loop_count": 0,
-        "filename_prefix": "AnimateDiff",
-        "format": "video/h264-mp4",
-        "pix_fmt": "yuv420p",
-        "crf": 19,
-        "save_metadata": true,
-        "pingpong": false,
-        "save_output": false,
-        "videopreview": {
-          "hidden": false,
-          "paused": false,
-          "params": {
-            "filename": "AnimateDiff_00011-audio.mp4",
-            "subfolder": "",
-            "type": "temp",
-            "format": "video/h264-mp4"
-          }
-        }
-      }
-    },
-    {
       "id": 36,
       "type": "voicecraft_process",
       "pos": [
         335,
         -149
       ],
-      "size": [
-        399.6637862792966,
-        262
-      ],
+      "size": {
+        "0": 399.6637878417969,
+        "1": 262
+      },
       "flags": {},
       "order": 14,
       "mode": 0,
@@ -578,60 +468,6 @@
         3,
         4,
         "But when I had approached so near to them The common To unlock the multitude of control types and artistic flows possible with AI, we want to build tooling and infrastructure to empower a community of tool-builders, who in-turn empower a world of budding artists."
-      ]
-    },
-    {
-      "id": 30,
-      "type": "SimpleMath+",
-      "pos": [
-        960,
-        581
-      ],
-      "size": {
-        "0": 315,
-        "1": 78
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 18,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "a",
-          "type": "INT,FLOAT",
-          "link": 59,
-          "slot_index": 0
-        },
-        {
-          "name": "b",
-          "type": "INT,FLOAT",
-          "link": 82,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            61
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "FLOAT",
-          "type": "FLOAT",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SimpleMath+"
-      },
-      "widgets_values": [
-        "a*b"
       ]
     },
     {
@@ -738,7 +574,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 2,
+      "order": 1,
       "mode": 0,
       "outputs": [
         {
@@ -771,7 +607,7 @@
         "1": 135.55711364746094
       },
       "flags": {},
-      "order": 3,
+      "order": 2,
       "mode": 0,
       "outputs": [
         {
@@ -799,10 +635,10 @@
         331,
         542
       ],
-      "size": [
-        400.7355862792965,
-        262
-      ],
+      "size": {
+        "0": 400.735595703125,
+        "1": 262
+      },
       "flags": {},
       "order": 15,
       "mode": 0,
@@ -889,12 +725,12 @@
         -662,
         -393
       ],
-      "size": [
-        394.58241410688913,
-        153.08928888494313
-      ],
+      "size": {
+        "0": 394.5824279785156,
+        "1": 153.08929443359375
+      },
       "flags": {},
-      "order": 4,
+      "order": 3,
       "mode": 0,
       "outputs": [
         {
@@ -927,7 +763,7 @@
         "1": 135.55711364746094
       },
       "flags": {},
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "outputs": [
         {
@@ -961,7 +797,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 6,
+      "order": 5,
       "mode": 0,
       "outputs": [
         {
@@ -1041,12 +877,12 @@
         -252,
         176
       ],
-      "size": [
-        255.08530273437475,
-        69.0083190917967
-      ],
+      "size": {
+        "0": 255.08529663085938,
+        "1": 69.00831604003906
+      },
       "flags": {},
-      "order": 7,
+      "order": 6,
       "mode": 0,
       "title": "Note: Samplerate",
       "properties": {
@@ -1138,12 +974,12 @@
         -60,
         -70
       ],
-      "size": [
-        323.4185273065142,
-        78.13360412276654
-      ],
+      "size": {
+        "0": 323.41851806640625,
+        "1": 78.13360595703125
+      },
       "flags": {},
-      "order": 8,
+      "order": 7,
       "mode": 0,
       "title": "Note: espeak-ng",
       "properties": {
@@ -1162,18 +998,42 @@
         1436,
         58
       ],
-      "size": [
-        263.56500253311924,
-        58
-      ],
+      "size": {
+        "0": 263.56500244140625,
+        "1": 58
+      },
       "flags": {},
-      "order": 9,
+      "order": 8,
       "mode": 0,
       "properties": {
         "text": ""
       },
       "widgets_values": [
         "DeepFilterNet audio upsampling"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 54,
+      "type": "Note",
+      "pos": [
+        940,
+        -371
+      ],
+      "size": {
+        "0": 263.56500244140625,
+        "1": 58
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "title": "Note: Simple Math",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Calculating amount of frames for the output video."
       ],
       "color": "#432",
       "bgcolor": "#653"
@@ -1190,7 +1050,7 @@
         "1": 78
       },
       "flags": {
-        "collapsed": true
+        "collapsed": false
       },
       "order": 17,
       "mode": 0,
@@ -1198,7 +1058,7 @@
         {
           "name": "a",
           "type": "INT,FLOAT",
-          "link": 58,
+          "link": 108,
           "slot_index": 0
         },
         {
@@ -1233,28 +1093,169 @@
       ]
     },
     {
-      "id": 54,
-      "type": "Note",
+      "id": 55,
+      "type": "FloatConstant",
       "pos": [
-        940,
-        -371
+        589,
+        -302
       ],
-      "size": {
-        "0": 263.56500244140625,
-        "1": 58
-      },
+      "size": [
+        200,
+        58
+      ],
       "flags": {},
       "order": 10,
       "mode": 0,
-      "title": "Note: Simple Math",
+      "outputs": [
+        {
+          "name": "value",
+          "type": "FLOAT",
+          "links": [
+            108,
+            109,
+            112
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
       "properties": {
-        "text": ""
+        "Node name for S&R": "FloatConstant"
       },
       "widgets_values": [
-        "Calculating amount of frames for the output video."
+        24
       ],
-      "color": "#432",
-      "bgcolor": "#653"
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 30,
+      "type": "SimpleMath+",
+      "pos": [
+        959,
+        581
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "INT,FLOAT",
+          "link": 109,
+          "slot_index": 0
+        },
+        {
+          "name": "b",
+          "type": "INT,FLOAT",
+          "link": 82,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            61
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SimpleMath+"
+      },
+      "widgets_values": [
+        "a*b"
+      ]
+    },
+    {
+      "id": 57,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        2283,
+        155
+      ],
+      "size": [
+        315,
+        595
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 113,
+          "slot_index": 0
+        },
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "link": 114,
+          "slot_index": 1
+        },
+        {
+          "name": "batch_manager",
+          "type": "VHS_BatchManager",
+          "link": null
+        },
+        {
+          "name": "frame_rate",
+          "type": "FLOAT",
+          "link": 112,
+          "widget": {
+            "name": "frame_rate"
+          },
+          "slot_index": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 8,
+        "loop_count": 0,
+        "filename_prefix": "VoiceCraft",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 19,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": true,
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "filename": "VoiceCraft_00001-audio.mp4",
+            "subfolder": "",
+            "type": "output",
+            "format": "video/h264-mp4"
+          }
+        }
+      }
     }
   ],
   "links": [
@@ -1272,14 +1273,6 @@
       1,
       7,
       0,
-      "INT"
-    ],
-    [
-      13,
-      10,
-      0,
-      4,
-      3,
       "INT"
     ],
     [
@@ -1331,36 +1324,12 @@
       "INT"
     ],
     [
-      40,
-      14,
-      0,
-      4,
-      1,
-      "VHS_AUDIO"
-    ],
-    [
       45,
       23,
       0,
       26,
       1,
       "STRING"
-    ],
-    [
-      58,
-      10,
-      0,
-      11,
-      0,
-      "INT,FLOAT"
-    ],
-    [
-      59,
-      10,
-      0,
-      30,
-      0,
-      "INT,FLOAT"
     ],
     [
       61,
@@ -1392,14 +1361,6 @@
       0,
       34,
       1,
-      "IMAGE"
-    ],
-    [
-      65,
-      34,
-      0,
-      4,
-      0,
       "IMAGE"
     ],
     [
@@ -1521,6 +1482,46 @@
       37,
       1,
       "VCAUDIOTENSOR"
+    ],
+    [
+      108,
+      55,
+      0,
+      11,
+      0,
+      "INT,FLOAT"
+    ],
+    [
+      109,
+      55,
+      0,
+      30,
+      0,
+      "INT,FLOAT"
+    ],
+    [
+      112,
+      55,
+      0,
+      57,
+      3,
+      "FLOAT"
+    ],
+    [
+      113,
+      34,
+      0,
+      57,
+      0,
+      "IMAGE"
+    ],
+    [
+      114,
+      14,
+      0,
+      57,
+      1,
+      "VHS_AUDIO"
     ]
   ],
   "groups": [],
