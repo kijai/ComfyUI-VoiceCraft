@@ -6,3 +6,4 @@ docopt-ng
 git+https://github.com/kijai/audiocraft.git#egg=audiocraft
 openai-whisper
 deepfilternet
+imageio-ffmpeg
