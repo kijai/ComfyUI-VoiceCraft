@@ -25,7 +25,15 @@ class voicecraft_model_loader:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {
-            
+            "checkpoint": (
+            [   
+                'giga330M.pth',
+                'giga830M.pth',
+                'gigaHalfLibri330M_TTSEnhanced_max16s.pth',
+            ],
+            {
+            "default": 'giga830M.pth'
+             }),
             },
         }
     
@@ -34,44 +42,50 @@ class voicecraft_model_loader:
     FUNCTION = "loadmodel"
     CATEGORY = "VoiceCraft"
     DESCRIPTION = """
-Loads (and downloads) the larger (giga830M.pth) VoiceCraft model from:  
+Loads (and downloads) the chosen VoiceCraft model from:  
 https://huggingface.co/pyp1/VoiceCraft/tree/main  
 to ComfyUI/models/voicecraft  
-  
+
+gigaHalfLibri330M:  
+Finetuned giga330M with the gigaspeech TTS objective  
+and 1/5 of librilight, the model outperforms giga830M on TTS, but  
+limits maximal prompt + generation length to 16 seconds max.
+
 espeak-ng must be installed in your operating system:  
 https://github.com/espeak-ng/espeak-ng
 """
 
-    def loadmodel(self, espeak_library_path=""):
+    def loadmodel(self, checkpoint):
         mm.soft_empty_cache()
         device = mm.get_torch_device()
   
-        if not hasattr(self, 'model') or self.model == None:
-            if espeak_library_path == "" and platform.system() == "Windows":
-                print("espeak_library_path not set, using default")
-                espeak_library_path_windows = os.path.join(script_directory, 'espeak-ng', 'libespeak-ng.dll')
-                espeak_library_path = espeak_library_path_windows
-                print("Setting espeak_library_path: ", espeak_library_path_windows)
+        if not hasattr(self, 'model') or self.model == None or self.current_checkpoint != checkpoint:
+            self.current_checkpoint = checkpoint
+            if platform.system() == "Windows":
+                espeak_library_path = os.path.join(script_directory, 'espeak-ng', 'libespeak-ng.dll')
+                print("Setting espeak_library_path: ", espeak_library_path)
                 TextTokenizer.set_library(espeak_library_path)
+            text_tokenizer = TextTokenizer(backend="espeak")
 
             model_path = os.path.join(folder_paths.models_dir,'voicecraft')
-            text_tokenizer = TextTokenizer(backend="espeak")
-           
-            voicecraft_name="giga830M.pth"
-            
-            if not os.path.exists(model_path):
+            checkpoint_path = os.path.join(folder_paths.models_dir,'voicecraft', checkpoint)
+            encodec_path = os.path.join(model_path,"encodec_4cb2048_giga.th")
+
+            if not os.path.exists(checkpoint_path):
                 from huggingface_hub import snapshot_download
-                snapshot_download(repo_id="pyp1/VoiceCraft", ignore_patterns=["giga330M.pth"], 
+                snapshot_download(repo_id="pyp1/VoiceCraft", allow_patterns=[checkpoint], 
                                     local_dir=model_path, local_dir_use_symlinks=False)
-            state_dict = torch.load(os.path.join(model_path, voicecraft_name), map_location="cpu")
+            state_dict = torch.load(os.path.join(model_path, checkpoint), map_location="cpu")
 
-            encodec_fn = os.path.join(model_path,"encodec_4cb2048_giga.th")
-
-            audio_tokenizer = AudioTokenizer(signature=encodec_fn)
-
+            if not os.path.exists(encodec_path):
+                from huggingface_hub import snapshot_download
+                snapshot_download(repo_id="pyp1/VoiceCraft", allow_patterns=["encodec_4cb2048_giga.th"], 
+                                    local_dir=model_path, local_dir_use_symlinks=False)
+            audio_tokenizer = AudioTokenizer(signature=encodec_path)
+            
             phn2num = state_dict['phn2num']
-           
             config = state_dict["config"]
+
             self.model = voicecraft.VoiceCraft(config)
             self.model.load_state_dict(state_dict["model"])
             self.model.eval()

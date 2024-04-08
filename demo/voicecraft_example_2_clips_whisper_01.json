@@ -1,6 +1,6 @@
 {
-  "last_node_id": 67,
-  "last_link_id": 133,
+  "last_node_id": 72,
+  "last_link_id": 142,
   "nodes": [
     {
       "id": 33,
@@ -14,13 +14,13 @@
         "1": 360
       },
       "flags": {},
-      "order": 28,
+      "order": 26,
       "mode": 0,
       "inputs": [
         {
           "name": "text",
           "type": "STRING",
-          "link": 62,
+          "link": 141,
           "widget": {
             "name": "text"
           },
@@ -83,7 +83,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 30,
+      "order": 28,
       "mode": 0,
       "inputs": [
         {
@@ -113,29 +113,6 @@
       }
     },
     {
-      "id": 52,
-      "type": "Note",
-      "pos": [
-        1436,
-        58
-      ],
-      "size": {
-        "0": 263.56500244140625,
-        "1": 58
-      },
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "DeepFilterNet audio upsampling"
-      ],
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
       "id": 35,
       "type": "audio_tensor_concat",
       "pos": [
@@ -147,7 +124,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 26,
+      "order": 24,
       "mode": 0,
       "inputs": [
         {
@@ -194,7 +171,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 1,
+      "order": 0,
       "mode": 0,
       "outputs": [
         {
@@ -216,60 +193,6 @@
       }
     },
     {
-      "id": 53,
-      "type": "Note",
-      "pos": [
-        -131,
-        -75
-      ],
-      "size": {
-        "0": 323.41851806640625,
-        "1": 78.13360595703125
-      },
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "title": "Note: espeak-ng",
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "espeak needs to be installed on your system:\nhttps://github.com/espeak-ng/espeak-ng"
-      ],
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
-      "id": 12,
-      "type": "voicecraft_model_loader",
-      "pos": [
-        -83,
-        44
-      ],
-      "size": {
-        "0": 216.59999084472656,
-        "1": 26
-      },
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "voicecraft_model",
-          "type": "VCMODEL",
-          "links": [
-            73,
-            79
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "voicecraft_model_loader"
-      }
-    },
-    {
       "id": 57,
       "type": "GetNode",
       "pos": [
@@ -283,7 +206,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 4,
+      "order": 1,
       "mode": 0,
       "outputs": [
         {
@@ -317,7 +240,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 5,
+      "order": 2,
       "mode": 0,
       "outputs": [
         {
@@ -351,7 +274,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 6,
+      "order": 3,
       "mode": 0,
       "outputs": [
         {
@@ -383,7 +306,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 7,
+      "order": 4,
       "mode": 0,
       "outputs": [
         {
@@ -420,7 +343,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 13,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
@@ -461,7 +384,7 @@
         "1": 69.00831604003906
       },
       "flags": {},
-      "order": 8,
+      "order": 5,
       "mode": 0,
       "title": "Note: Samplerate",
       "properties": {
@@ -485,7 +408,7 @@
         "1": 102
       },
       "flags": {},
-      "order": 14,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
@@ -544,7 +467,7 @@
         "1": 76
       },
       "flags": {},
-      "order": 20,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -573,7 +496,7 @@
         "1": 82.89967346191406
       },
       "flags": {},
-      "order": 16,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -595,91 +518,6 @@
       ]
     },
     {
-      "id": 23,
-      "type": "Text Multiline",
-      "pos": [
-        -664,
-        500
-      ],
-      "size": {
-        "0": 373.0280456542969,
-        "1": 135.55711364746094
-      },
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            45,
-            62
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Text Multiline"
-      },
-      "widgets_values": [
-        "The results vary greatly between seeds. 3 seconds is the minimum recommended length of the input, you can set the cutoff point by word with the Whisper -node."
-      ]
-    },
-    {
-      "id": 55,
-      "type": "whisper_transcription",
-      "pos": [
-        -680,
-        145
-      ],
-      "size": {
-        "0": 330,
-        "1": 102
-      },
-      "flags": {},
-      "order": 15,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "audio_tensor",
-          "type": "VCAUDIOTENSOR",
-          "link": 108
-        }
-      ],
-      "outputs": [
-        {
-          "name": "transcript",
-          "type": "STRING",
-          "links": [
-            115,
-            121,
-            122
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "word_end_time",
-          "type": "FLOAT",
-          "links": [
-            116,
-            118
-          ],
-          "shape": 3,
-          "slot_index": 1
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "whisper_transcription"
-      },
-      "widgets_values": [
-        "medium",
-        "knowledge"
-      ]
-    },
-    {
       "id": 62,
       "type": "audio_tensor_split",
       "pos": [
@@ -691,7 +529,7 @@
         "1": 102
       },
       "flags": {},
-      "order": 21,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
@@ -736,298 +574,6 @@
       ]
     },
     {
-      "id": 18,
-      "type": "Text Concatenate",
-      "pos": [
-        208,
-        -115
-      ],
-      "size": {
-        "0": 315,
-        "1": 178
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 18,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text_a",
-          "type": "STRING",
-          "link": 121,
-          "widget": {
-            "name": "text_a"
-          },
-          "slot_index": 0
-        },
-        {
-          "name": "text_b",
-          "type": "STRING",
-          "link": 26,
-          "widget": {
-            "name": "text_b"
-          }
-        },
-        {
-          "name": "text_c",
-          "type": "STRING",
-          "link": null,
-          "widget": {
-            "name": "text_c"
-          }
-        },
-        {
-          "name": "text_d",
-          "type": "STRING",
-          "link": null,
-          "widget": {
-            "name": "text_d"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            77
-          ],
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Text Concatenate"
-      },
-      "widgets_values": [
-        ".",
-        "true",
-        "",
-        "",
-        "",
-        ""
-      ]
-    },
-    {
-      "id": 26,
-      "type": "Text Concatenate",
-      "pos": [
-        127,
-        599
-      ],
-      "size": {
-        "0": 315,
-        "1": 178
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 19,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text_a",
-          "type": "STRING",
-          "link": 122,
-          "widget": {
-            "name": "text_a"
-          },
-          "slot_index": 0
-        },
-        {
-          "name": "text_b",
-          "type": "STRING",
-          "link": 45,
-          "widget": {
-            "name": "text_b"
-          }
-        },
-        {
-          "name": "text_c",
-          "type": "STRING",
-          "link": null,
-          "widget": {
-            "name": "text_c"
-          }
-        },
-        {
-          "name": "text_d",
-          "type": "STRING",
-          "link": null,
-          "widget": {
-            "name": "text_d"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            80
-          ],
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Text Concatenate"
-      },
-      "widgets_values": [
-        ".",
-        "true",
-        "",
-        "",
-        "",
-        ""
-      ]
-    },
-    {
-      "id": 20,
-      "type": "CreateTextMask",
-      "pos": [
-        1322,
-        -393
-      ],
-      "size": {
-        "0": 400,
-        "1": 360
-      },
-      "flags": {},
-      "order": 27,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 27,
-          "widget": {
-            "name": "text"
-          },
-          "slot_index": 0
-        },
-        {
-          "name": "frames",
-          "type": "INT",
-          "link": 28,
-          "widget": {
-            "name": "frames"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            63
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "CreateTextMask"
-      },
-      "widgets_values": [
-        false,
-        1,
-        2,
-        0,
-        32,
-        "white",
-        "HELLO!",
-        "TTNorms-Black.otf",
-        512,
-        512,
-        0,
-        0
-      ]
-    },
-    {
-      "id": 11,
-      "type": "SimpleMath+",
-      "pos": [
-        986,
-        -264
-      ],
-      "size": {
-        "0": 315,
-        "1": 78
-      },
-      "flags": {
-        "collapsed": false
-      },
-      "order": 24,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "a",
-          "type": "INT,FLOAT",
-          "link": 132,
-          "slot_index": 0
-        },
-        {
-          "name": "b",
-          "type": "INT,FLOAT",
-          "link": 74,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            28
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "FLOAT",
-          "type": "FLOAT",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SimpleMath+"
-      },
-      "widgets_values": [
-        "a*b"
-      ]
-    },
-    {
-      "id": 54,
-      "type": "Note",
-      "pos": [
-        963,
-        -442
-      ],
-      "size": {
-        "0": 263.56500244140625,
-        "1": 58
-      },
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "title": "Note: Simple Math",
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "Calculating amount of frames for the output video."
-      ],
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
       "id": 30,
       "type": "SimpleMath+",
       "pos": [
@@ -1041,7 +587,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 25,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
@@ -1082,42 +628,6 @@
       ]
     },
     {
-      "id": 63,
-      "type": "FloatConstant",
-      "pos": [
-        499,
-        -450
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 11,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "value",
-          "type": "FLOAT",
-          "links": [
-            131,
-            132,
-            133
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "FloatConstant"
-      },
-      "widgets_values": [
-        24
-      ],
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
       "id": 67,
       "type": "VHS_VideoCombine",
       "pos": [
@@ -1125,11 +635,11 @@
         -24
       ],
       "size": [
-        315,
-        595
+        320,
+        600
       ],
       "flags": {},
-      "order": 32,
+      "order": 30,
       "mode": 0,
       "inputs": [
         {
@@ -1181,75 +691,13 @@
           "hidden": false,
           "paused": false,
           "params": {
-            "filename": "AnimateDiff_00017-audio.mp4",
+            "filename": "AnimateDiff_00005-audio.mp4",
             "subfolder": "",
             "type": "temp",
             "format": "video/h264-mp4"
           }
         }
       }
-    },
-    {
-      "id": 60,
-      "type": "Display Any (rgthree)",
-      "pos": [
-        -682,
-        -67
-      ],
-      "size": {
-        "0": 328.66912841796875,
-        "1": 149.56040954589844
-      },
-      "flags": {},
-      "order": 17,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "source",
-          "type": "*",
-          "link": 115,
-          "dir": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Display Any (rgthree)"
-      },
-      "widgets_values": [
-        ""
-      ]
-    },
-    {
-      "id": 19,
-      "type": "Text Multiline",
-      "pos": [
-        -630,
-        -377
-      ],
-      "size": {
-        "0": 394.5824279785156,
-        "1": 153.08929443359375
-      },
-      "flags": {},
-      "order": 12,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            26,
-            27
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Text Multiline"
-      },
-      "widgets_values": [
-        "This is an example workflow that generates two clips from a single input clip. This input clip originates from the VoiceCraft demo page."
-      ]
     },
     {
       "id": 14,
@@ -1263,7 +711,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 31,
+      "order": 29,
       "mode": 0,
       "inputs": [
         {
@@ -1297,60 +745,6 @@
       ]
     },
     {
-      "id": 13,
-      "type": "audio_tensor_enhance",
-      "pos": [
-        1430,
-        157
-      ],
-      "size": {
-        "0": 317.4000244140625,
-        "1": 78
-      },
-      "flags": {},
-      "order": 29,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "audio_tensor",
-          "type": "VCAUDIOTENSOR",
-          "link": 70
-        },
-        {
-          "name": "original_sample_rate",
-          "type": "INT",
-          "link": 112,
-          "widget": {
-            "name": "original_sample_rate"
-          },
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "audio_tensor",
-          "type": "VCAUDIOTENSOR",
-          "links": [
-            19
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "audio_dur",
-          "type": "INT",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "audio_tensor_enhance"
-      },
-      "widgets_values": [
-        16000
-      ]
-    },
-    {
       "id": 36,
       "type": "voicecraft_process",
       "pos": [
@@ -1362,7 +756,7 @@
         "1": 262
       },
       "flags": {},
-      "order": 22,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -1378,7 +772,7 @@
         {
           "name": "target_transcript",
           "type": "STRING",
-          "link": 77,
+          "link": 136,
           "widget": {
             "name": "target_transcript"
           },
@@ -1429,7 +823,7 @@
       },
       "widgets_values": [
         16000,
-        126,
+        127,
         "fixed",
         0,
         0.8,
@@ -1437,6 +831,537 @@
         3,
         4,
         "But when I had approached so near to them The common To unlock the multitude of control types and artistic flows possible with AI, we want to build tooling and infrastructure to empower a community of tool-builders, who in-turn empower a world of budding artists."
+      ]
+    },
+    {
+      "id": 13,
+      "type": "audio_tensor_enhance",
+      "pos": [
+        1430,
+        157
+      ],
+      "size": {
+        "0": 317.4000244140625,
+        "1": 78
+      },
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "link": 70
+        },
+        {
+          "name": "original_sample_rate",
+          "type": "INT",
+          "link": 112,
+          "widget": {
+            "name": "original_sample_rate"
+          },
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "links": [
+            19
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "audio_tensor_enhance"
+      },
+      "widgets_values": [
+        16000
+      ]
+    },
+    {
+      "id": 11,
+      "type": "SimpleMath+",
+      "pos": [
+        910,
+        -271
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "INT,FLOAT",
+          "link": 132,
+          "slot_index": 0
+        },
+        {
+          "name": "b",
+          "type": "INT,FLOAT",
+          "link": 74,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            28
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SimpleMath+"
+      },
+      "widgets_values": [
+        "a*b"
+      ]
+    },
+    {
+      "id": 68,
+      "type": "JoinStrings",
+      "pos": [
+        199,
+        -119
+      ],
+      "size": {
+        "0": 279.9975280761719,
+        "1": 78
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "string1",
+          "type": "STRING",
+          "link": 134,
+          "widget": {
+            "name": "string1"
+          },
+          "slot_index": 0
+        },
+        {
+          "name": "string2",
+          "type": "STRING",
+          "link": 135,
+          "widget": {
+            "name": "string2"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            136
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoinStrings"
+      },
+      "widgets_values": [
+        "",
+        "",
+        " "
+      ]
+    },
+    {
+      "id": 60,
+      "type": "Display Any (rgthree)",
+      "pos": [
+        -681,
+        -80
+      ],
+      "size": {
+        "0": 328.66912841796875,
+        "1": 149.56040954589844
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 115,
+          "dir": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Display Any (rgthree)"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 55,
+      "type": "whisper_transcription",
+      "pos": [
+        -680,
+        145
+      ],
+      "size": {
+        "0": 330,
+        "1": 102
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "link": 108
+        }
+      ],
+      "outputs": [
+        {
+          "name": "transcript",
+          "type": "STRING",
+          "links": [
+            115,
+            134,
+            139
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "word_end_time",
+          "type": "FLOAT",
+          "links": [
+            116,
+            118
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "whisper_transcription"
+      },
+      "widgets_values": [
+        "medium",
+        "knowledge"
+      ]
+    },
+    {
+      "id": 71,
+      "type": "JoinStrings",
+      "pos": [
+        164,
+        597
+      ],
+      "size": {
+        "0": 279.9975280761719,
+        "1": 78
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "string1",
+          "type": "STRING",
+          "link": 139,
+          "widget": {
+            "name": "string1"
+          },
+          "slot_index": 0
+        },
+        {
+          "name": "string2",
+          "type": "STRING",
+          "link": 140,
+          "widget": {
+            "name": "string2"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            138
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoinStrings"
+      },
+      "widgets_values": [
+        "",
+        "",
+        " "
+      ]
+    },
+    {
+      "id": 72,
+      "type": "StringConstantMultiline",
+      "pos": [
+        -497,
+        515
+      ],
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            140,
+            141
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "StringConstantMultiline"
+      },
+      "widgets_values": [
+        "The results vary greatly between seeds. 3 seconds is the minimum recommended length of the input, you can set the cutoff point by word with the Whisper -node.",
+        true
+      ]
+    },
+    {
+      "id": 20,
+      "type": "CreateTextMask",
+      "pos": [
+        1322,
+        -393
+      ],
+      "size": {
+        "0": 400,
+        "1": 360
+      },
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 142,
+          "widget": {
+            "name": "text"
+          },
+          "slot_index": 0
+        },
+        {
+          "name": "frames",
+          "type": "INT",
+          "link": 28,
+          "widget": {
+            "name": "frames"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            63
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateTextMask"
+      },
+      "widgets_values": [
+        false,
+        1,
+        2,
+        0,
+        32,
+        "white",
+        "HELLO!",
+        "TTNorms-Black.otf",
+        512,
+        512,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 69,
+      "type": "StringConstantMultiline",
+      "pos": [
+        -599,
+        -399
+      ],
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            135,
+            142
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "StringConstantMultiline"
+      },
+      "widgets_values": [
+        "This is an example workflow that generates two clips from a single input clip. This input clip originates from the VoiceCraft demo page.",
+        true
+      ]
+    },
+    {
+      "id": 54,
+      "type": "Note",
+      "pos": [
+        940,
+        -150
+      ],
+      "size": {
+        "0": 263.56500244140625,
+        "1": 58
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "title": "Note: Simple Math",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Calculating amount of frames for the output video."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 63,
+      "type": "FloatConstant",
+      "pos": [
+        492,
+        273
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "value",
+          "type": "FLOAT",
+          "links": [
+            131,
+            132,
+            133
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Framerate",
+      "properties": {
+        "Node name for S&R": "FloatConstant"
+      },
+      "widgets_values": [
+        24
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 12,
+      "type": "voicecraft_model_loader",
+      "pos": [
+        25,
+        65
+      ],
+      "size": {
+        "0": 260,
+        "1": 58
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 10,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "voicecraft_model",
+          "type": "VCMODEL",
+          "links": [
+            73,
+            79
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "voicecraft_model_loader"
+      },
+      "widgets_values": [
+        "giga830M.pth"
       ]
     },
     {
@@ -1451,7 +1376,7 @@
         "1": 262
       },
       "flags": {},
-      "order": 23,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -1468,7 +1393,7 @@
         {
           "name": "target_transcript",
           "type": "STRING",
-          "link": 80,
+          "link": 138,
           "widget": {
             "name": "target_transcript"
           },
@@ -1519,7 +1444,7 @@
       },
       "widgets_values": [
         16000,
-        126,
+        128,
         "fixed",
         0,
         0.8,
@@ -1556,22 +1481,6 @@
       "VCAUDIOTENSOR"
     ],
     [
-      26,
-      19,
-      0,
-      18,
-      1,
-      "STRING"
-    ],
-    [
-      27,
-      19,
-      0,
-      20,
-      0,
-      "STRING"
-    ],
-    [
       28,
       11,
       0,
@@ -1580,28 +1489,12 @@
       "INT"
     ],
     [
-      45,
-      23,
-      0,
-      26,
-      1,
-      "STRING"
-    ],
-    [
       61,
       30,
       0,
       33,
       1,
       "INT"
-    ],
-    [
-      62,
-      23,
-      0,
-      33,
-      0,
-      "STRING"
     ],
     [
       63,
@@ -1652,28 +1545,12 @@
       "VCAUDIOTENSOR"
     ],
     [
-      77,
-      18,
-      0,
-      36,
-      2,
-      "STRING"
-    ],
-    [
       79,
       12,
       0,
       37,
       0,
       "VCMODEL"
-    ],
-    [
-      80,
-      26,
-      0,
-      37,
-      2,
-      "STRING"
     ],
     [
       82,
@@ -1788,22 +1665,6 @@
       "VCAUDIOTENSOR"
     ],
     [
-      121,
-      55,
-      0,
-      18,
-      0,
-      "STRING"
-    ],
-    [
-      122,
-      55,
-      0,
-      26,
-      0,
-      "STRING"
-    ],
-    [
       129,
       34,
       0,
@@ -1842,6 +1703,70 @@
       30,
       0,
       "INT,FLOAT"
+    ],
+    [
+      134,
+      55,
+      0,
+      68,
+      0,
+      "STRING"
+    ],
+    [
+      135,
+      69,
+      0,
+      68,
+      1,
+      "STRING"
+    ],
+    [
+      136,
+      68,
+      0,
+      36,
+      2,
+      "STRING"
+    ],
+    [
+      138,
+      71,
+      0,
+      37,
+      2,
+      "STRING"
+    ],
+    [
+      139,
+      55,
+      0,
+      71,
+      0,
+      "STRING"
+    ],
+    [
+      140,
+      72,
+      0,
+      71,
+      1,
+      "STRING"
+    ],
+    [
+      141,
+      72,
+      0,
+      33,
+      0,
+      "STRING"
+    ],
+    [
+      142,
+      69,
+      0,
+      20,
+      0,
+      "STRING"
     ]
   ],
   "groups": [],
