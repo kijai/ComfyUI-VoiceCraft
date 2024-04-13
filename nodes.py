@@ -106,23 +106,24 @@ class audiocraft_model_loader:
         return {"required": {
             "audiocraft_model": (
             [   
-                'musicgen-small',
-                'musicgen-medium',
-                'musicgen-large',
-                'musicgen-melody',
-                'musicgen-melody-large',
-                'musicgen-small-stereo',
-                'musicgen-medium-stereo',
-                'musicgen-large-stereo',
-                'musicgen-melody-stereo',
-                'musicgen-melody-large-stereo',
-                'magnet-small-10secs',
-                'magnet-small-30secs',
-                'magnet-medium-10secs',
-                'magnet-medium-30secs',
-                'magnet-medium-10secs',
-                'audio-magnet-small',
-                'audio-magnet-medium'
+                'facebook/musicgen-small',
+                'facebook/musicgen-medium',
+                'facebook/musicgen-large',
+                'facebook/musicgen-melody',
+                'facebook/musicgen-melody-large',
+                'facebook/musicgen-small-stereo',
+                'facebook/musicgen-medium-stereo',
+                'facebook/musicgen-large-stereo',
+                'facebook/musicgen-melody-stereo',
+                'facebook/musicgen-melody-large-stereo',
+                'facebook/magnet-small-10secs',
+                'facebook/magnet-small-30secs',
+                'facebook/magnet-medium-10secs',
+                'facebook/magnet-medium-30secs',
+                'facebook/magnet-medium-10secs',
+                'facebook/audio-magnet-small',
+                'facebook/audio-magnet-medium',
+                'nateraw/musicgen-songstarter-v0.2',
             ],
             {
             "default": 'musicgen-melody'
@@ -139,13 +140,13 @@ class audiocraft_model_loader:
     def loadmodel(self, audiocraft_model):
         mm.soft_empty_cache()
         device = mm.get_torch_device()
-        
+        dtype = mm.unet_dtype()
         if not hasattr(self, 'model') or self.model == None or audiocraft_model != audiocraft_model["model_name"]:
             model_path = os.path.join(folder_paths.models_dir,'audiocraft',audiocraft_model)
             
             if not os.path.exists(model_path):
                 from huggingface_hub import snapshot_download
-                snapshot_download(repo_id=f"facebook/{audiocraft_model}", ignore_patterns=["*.safetensors"], 
+                snapshot_download(repo_id=audiocraft_model, ignore_patterns=["*.safetensors"], 
                                     local_dir=model_path, local_dir_use_symlinks=False)
             if "magnet" in audiocraft_model:
                 from audiocraft.models import MAGNeT
@@ -153,13 +154,13 @@ class audiocraft_model_loader:
             if "musicgen" in audiocraft_model:
                 from audiocraft.models import MusicGen
                 self.model = MusicGen.get_pretrained(model_path)
+            self.model
             audiocraft_model = {
                 "model": self.model,
                 "model_name": audiocraft_model
             }
 
         return (audiocraft_model,)
-    
 class voicecraft_process:
     @classmethod
     def INPUT_TYPES(s):
