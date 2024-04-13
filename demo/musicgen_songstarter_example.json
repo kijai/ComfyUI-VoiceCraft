@@ -1,0 +1,512 @@
+{
+  "last_node_id": 11,
+  "last_link_id": 14,
+  "nodes": [
+    {
+      "id": 3,
+      "type": "audio_tensor_to_vhs_audio",
+      "pos": [
+        1049,
+        251
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "link": 9
+        }
+      ],
+      "outputs": [
+        {
+          "name": "vhs_audio",
+          "type": "VHS_AUDIO",
+          "links": [
+            3
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "audio_tensor_to_vhs_audio"
+      },
+      "widgets_values": [
+        32000
+      ]
+    },
+    {
+      "id": 7,
+      "type": "vhs_audio_to_audio_tensor",
+      "pos": [
+        250,
+        505
+      ],
+      "size": {
+        "0": 315,
+        "1": 102
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "vhs_audio",
+          "type": "VHS_AUDIO",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "links": [
+            8
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "vhs_audio_to_audio_tensor"
+      },
+      "widgets_values": [
+        32000,
+        2
+      ]
+    },
+    {
+      "id": 6,
+      "type": "VHS_LoadAudio",
+      "pos": [
+        -99,
+        510
+      ],
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "links": [
+            5
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_LoadAudio"
+      },
+      "widgets_values": {
+        "audio_file": "input/assets_bach.mp3",
+        "seek_seconds": 0
+      }
+    },
+    {
+      "id": 4,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        1492,
+        229
+      ],
+      "size": [
+        315,
+        595
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 4,
+          "slot_index": 0
+        },
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "link": 3
+        },
+        {
+          "name": "batch_manager",
+          "type": "VHS_BatchManager",
+          "link": null
+        },
+        {
+          "name": "frame_rate",
+          "type": "FLOAT",
+          "link": 13,
+          "widget": {
+            "name": "frame_rate"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 8,
+        "loop_count": 0,
+        "filename_prefix": "AnimateDiff",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 19,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": true,
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "filename": "AnimateDiff_00565-audio.mp4",
+            "subfolder": "",
+            "type": "output",
+            "format": "video/h264-mp4"
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "EmptyImage",
+      "pos": [
+        1049,
+        52
+      ],
+      "size": [
+        315,
+        130
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "batch_size",
+          "type": "INT",
+          "link": 14,
+          "widget": {
+            "name": "batch_size"
+          },
+          "slot_index": 0
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            4
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyImage"
+      },
+      "widgets_values": [
+        512,
+        512,
+        133,
+        0
+      ]
+    },
+    {
+      "id": 8,
+      "type": "musicgen",
+      "pos": [
+        605,
+        273
+      ],
+      "size": [
+        413.06003356933616,
+        339.5100421142579
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audiocraft_model",
+          "type": "ACMODEL",
+          "link": 7
+        },
+        {
+          "name": "melody",
+          "type": "VCAUDIOTENSOR",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio_tensor",
+          "type": "VCAUDIOTENSOR",
+          "links": [
+            9
+          ],
+          "shape": 3
+        },
+        {
+          "name": "audio_dur",
+          "type": "INT",
+          "links": [
+            11
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "musicgen"
+      },
+      "widgets_values": [
+        32000,
+        16,
+        1,
+        250,
+        0.8,
+        3,
+        false,
+        18,
+        "acoustic, guitar, melody, trap, d minor, 90 bpm"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "audiocraft_model_loader",
+      "pos": [
+        155,
+        273
+      ],
+      "size": {
+        "0": 387.79998779296875,
+        "1": 58
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "audiocraft_model",
+          "type": "ACMODEL",
+          "links": [
+            7
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "audiocraft_model_loader"
+      },
+      "widgets_values": [
+        "nateraw/musicgen-songstarter-v0.2"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "FloatConstant",
+      "pos": [
+        1099,
+        573
+      ],
+      "size": [
+        200,
+        58
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "value",
+          "type": "FLOAT",
+          "links": [
+            12,
+            13
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Framerate",
+      "properties": {
+        "Node name for S&R": "FloatConstant"
+      },
+      "widgets_values": [
+        24
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 10,
+      "type": "SimpleMath+",
+      "pos": [
+        1079,
+        388
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "INT,FLOAT",
+          "link": 11
+        },
+        {
+          "name": "b",
+          "type": "INT,FLOAT",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            14
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SimpleMath+"
+      },
+      "widgets_values": [
+        "a*b"
+      ]
+    }
+  ],
+  "links": [
+    [
+      3,
+      3,
+      0,
+      4,
+      1,
+      "VHS_AUDIO"
+    ],
+    [
+      4,
+      5,
+      0,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      5,
+      6,
+      0,
+      7,
+      0,
+      "VHS_AUDIO"
+    ],
+    [
+      7,
+      2,
+      0,
+      8,
+      0,
+      "ACMODEL"
+    ],
+    [
+      8,
+      7,
+      0,
+      8,
+      1,
+      "VCAUDIOTENSOR"
+    ],
+    [
+      9,
+      8,
+      0,
+      3,
+      0,
+      "VCAUDIOTENSOR"
+    ],
+    [
+      11,
+      8,
+      1,
+      10,
+      0,
+      "INT,FLOAT"
+    ],
+    [
+      12,
+      11,
+      0,
+      10,
+      1,
+      "INT,FLOAT"
+    ],
+    [
+      13,
+      11,
+      0,
+      4,
+      3,
+      "FLOAT"
+    ],
+    [
+      14,
+      10,
+      0,
+      5,
+      0,
+      "INT"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}

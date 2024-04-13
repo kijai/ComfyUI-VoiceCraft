@@ -426,6 +426,12 @@ class musicgen:
                 "audiocraft_model": ("ACMODEL",),
                 "sample_rate": ("INT", {"default": 16000, "min": 0, "max": 160000}),
                 "duration": ("FLOAT", {"default": 8, "min": 0, "max": 4096, "step": 0.01}),
+                "temperature": ("FLOAT", {"default": 1.0, "min": 0, "max": 100, "step": 0.01}),
+                "top_k": ("INT", {"default": 250, "min": 0, "max": 4096, "step": 1}),
+                "top_p": ("FLOAT", {"default": 0.8, "min": 0.0, "max": 1, "step": 0.01}),
+                "cfg_coef": ("FLOAT", {"default": 3.0, "min": 0.0, "max": 100, "step": 0.01}),
+                "two_step_cfg": ("BOOLEAN", {"default": False}),
+                "extend_stride": ("FLOAT", {"default": 18.0, "min": 0.0, "max": 1024, "step": 0.01}),
                 "description": ("STRING", {"default": "happy rock", "multiline":True}),
              },
              "optional": {
@@ -439,12 +445,23 @@ class musicgen:
     FUNCTION = "process"
     CATEGORY = "VoiceCraft"
 
-    def process(self, audiocraft_model, sample_rate, duration, description, melody=None):
+    def process(self, audiocraft_model, sample_rate, duration, description, 
+                temperature, top_k, top_p, cfg_coef, 
+                two_step_cfg, extend_stride, melody=None):
         model = audiocraft_model['model']
         if "musicgen" in audiocraft_model['model_name']:
-            model.set_generation_params(duration=duration) 
+            model.set_generation_params(
+                duration=duration,
+                temperature=temperature,
+                top_k=top_k, 
+                top_p=top_p,
+                cfg_coef=cfg_coef,
+                two_step_cfg=two_step_cfg,
+                extend_stride=extend_stride,
+                )
+
         if melody != None and description != "":
-            audio_tensor = model.generate_with_chroma([description], melody, sample_rate)
+            audio_tensor = model.generate_with_chroma([description], melody, sample_rate, progress=True)
         elif description == "" and melody is None:
             audio_tensor = model.generate_unconditional(1)
         elif melody != None and description == "":
